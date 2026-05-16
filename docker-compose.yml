@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: card_inventory_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cardinv
+      POSTGRES_PASSWORD: cardinv
+      POSTGRES_DB: card_inventory
+    ports:
+      - "5432:5432"
+    volumes:
+      - card_inventory_pgdata:/var/lib/postgresql/data
+
+volumes:
+  card_inventory_pgdata:
