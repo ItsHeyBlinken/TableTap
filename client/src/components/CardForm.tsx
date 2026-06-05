@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { CardFormData } from "../types";
 import { apiUpload } from "../lib/api";
+import { CARD_CONDITIONS, isKnownCondition } from "../lib/cardConditions";
 
 interface CardFormProps {
   initial: CardFormData;
@@ -84,7 +85,21 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">Condition</label>
-          <input className={inputClass} value={form.condition} onChange={(e) => update("condition", e.target.value)} />
+          <select
+            className={`${inputClass} input-mobile`}
+            value={form.condition}
+            onChange={(e) => update("condition", e.target.value)}
+          >
+            <option value="">Select condition</option>
+            {CARD_CONDITIONS.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+            {form.condition && !isKnownCondition(form.condition) && (
+              <option value={form.condition}>{form.condition}</option>
+            )}
+          </select>
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">Cost basis (what you paid) *</label>
