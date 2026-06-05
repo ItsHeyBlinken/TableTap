@@ -21,7 +21,13 @@ Sports card **vendor POS + profit tracker** for show vendors, flippers, and tabl
 2. Open **Query Tool** in pgAdmin.
 3. Paste and run [`server/migrations/001_init.sql`](server/migrations/001_init.sql).
 4. Paste and run [`server/migrations/002_sales_events.sql`](server/migrations/002_sales_events.sql).
-5. For future schema changes, add new SQL files and run them the same way.
+5. Paste and run [`server/migrations/003_trades.sql`](server/migrations/003_trades.sql).
+6. For future schema changes, add new SQL files and run them the same way.
+
+## Resuming after a break
+
+- Checklist: [`memory-bank/resume.md`](memory-bank/resume.md)
+- Your test login and local secrets: copy [`dev.local.md.example`](dev.local.md.example) → `dev.local.md` (gitignored) and fill it in
 
 ### Optional: local Postgres via Docker
 

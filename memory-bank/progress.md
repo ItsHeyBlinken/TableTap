@@ -1,5 +1,9 @@
 # Progress Log
 
+## 2026-06-04
+
+- Added `memory-bank/resume.md` + gitignored `dev.local.md` template for returning to the project
+
 ## 2026-05-16
 
 - Pivoted to ShowPOS vendor POS: events, sell flow, vendor dashboard, rebranded UI

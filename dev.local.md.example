@@ -1,0 +1,74 @@
+# Local dev notes (copy to dev.local.md)
+
+Copy this file once:
+
+```bash
+cp dev.local.md.example dev.local.md
+```
+
+Fill in your real values. `dev.local.md` is gitignored — safe for passwords.
+
+---
+
+## Test / dev logins (TableTap UI)
+
+| Account | Email | Password |
+|---------|-------|----------|
+| Test 1 | test1@test.com | _(fill in — you chose at register)_ |
+| Test 2 | test2@test.com | _(fill in — you chose at register)_ |
+
+Registered via http://localhost:5173/register — not seeded in SQL.
+
+To list accounts in pgAdmin:
+
+```sql
+SELECT id, email, created_at FROM users ORDER BY created_at;
+```
+
+---
+
+## Quick start after a break
+
+```bash
+npm run dev
+```
+
+- App: http://localhost:5173
+- API: http://localhost:3001
+- Health: http://localhost:3001/api/health
+
+---
+
+## Environment
+
+- Secrets live in `server/.env` (copy from `server/.env.example`)
+- Do not commit `server/.env`
+
+| Variable | Your notes |
+|----------|------------|
+| DATABASE_URL | (remote pgAdmin host or `postgresql://cardinv:cardinv@localhost:5432/card_inventory`) |
+| JWT_SECRET | |
+| CLIENT_URL | http://localhost:5173 |
+
+---
+
+## Database migrations (pgAdmin, in order)
+
+- [ ] `server/migrations/001_init.sql`
+- [ ] `server/migrations/002_sales_events.sql`
+- [ ] `server/migrations/003_trades.sql`
+
+---
+
+## Naming
+
+| Context | Name |
+|---------|------|
+| User-facing UI | **TableTap** (`client/src/lib/brand.ts`) |
+| Code / repo / docs | **ShowPOS** |
+
+---
+
+## Notes
+
+<!-- Add anything else you want next time you open the project -->

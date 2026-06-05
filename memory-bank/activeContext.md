@@ -1,5 +1,9 @@
 # Active Context
 
+## Picking up again
+
+See [`resume.md`](resume.md) and your private `dev.local.md` (from `dev.local.md.example`) for test login, URLs, and migration checklist.
+
 ## Product pivot (2026-05-16)
 
 Refocused from collector inventory to **ShowPOS** — vendor POS + profit tracker.
