@@ -7,21 +7,23 @@ interface PaginationProps {
 export function Pagination({ page, totalPages, onPageChange }: PaginationProps) {
   if (totalPages <= 1) return null;
   return (
-    <div className="mt-6 flex items-center justify-center gap-2">
+    <div className="mt-6 flex items-center justify-center gap-3">
       <button
+        type="button"
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
-        className="rounded-md border border-slate-300 px-3 py-1 text-sm disabled:opacity-40"
+        className="touch-target rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium disabled:opacity-40"
       >
         Previous
       </button>
       <span className="text-sm text-slate-600">
-        Page {page} of {totalPages}
+        {page} / {totalPages}
       </span>
       <button
+        type="button"
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
-        className="rounded-md border border-slate-300 px-3 py-1 text-sm disabled:opacity-40"
+        className="touch-target rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium disabled:opacity-40"
       >
         Next
       </button>

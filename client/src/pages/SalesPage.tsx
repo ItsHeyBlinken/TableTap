@@ -45,7 +45,7 @@ export function SalesPage() {
         </div>
         <Link
           to="/sell"
-          className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+          className="touch-target inline-flex items-center rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-700"
         >
           + Record sale
         </Link>
@@ -59,7 +59,7 @@ export function SalesPage() {
             setEventFilter(e.target.value);
             setPage(1);
           }}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+          className="input-mobile w-full max-w-md"
         >
           <option value="">All events</option>
           {events.map((ev) => (
@@ -75,7 +75,43 @@ export function SalesPage() {
       ) : sales.length === 0 ? (
         <p className="text-slate-600">No sales yet. Record your first sale from the POS screen.</p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+        <>
+        <ul className="space-y-3 md:hidden">
+          {sales.map((card) => (
+            <li key={card.id} className="rounded-xl border border-slate-200 bg-white p-4">
+              <Link to={`/cards/${card.id}`} className="font-medium text-brand-600">
+                {cardLabel(card)}
+              </Link>
+              {card.sale_type === "trade" && (
+                <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800">
+                  Trade
+                </span>
+              )}
+              <p className="mt-1 text-sm text-slate-500">
+                {formatDate(card.sold_date)}
+                {card.event_name ? ` · ${card.event_name}` : ""}
+              </p>
+              <div className="mt-3 flex items-center justify-between text-sm">
+                <span>
+                  Revenue{" "}
+                  <span className="font-semibold text-slate-900">
+                    {formatCurrency(
+                      Number(card.sold_price ?? 0) + Number(card.cash_adjustment ?? 0)
+                    )}
+                  </span>
+                </span>
+                <span
+                  className={`font-bold ${
+                    (card.profit ?? 0) >= 0 ? "text-green-700" : "text-red-700"
+                  }`}
+                >
+                  {card.profit != null ? formatCurrency(card.profit) : "—"} profit
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="hidden overflow-x-auto rounded-xl border border-slate-200 bg-white md:block">
           <table className="min-w-full text-left text-sm">
             <thead className="border-b bg-slate-50">
               <tr>
@@ -118,6 +154,7 @@ export function SalesPage() {
             </tbody>
           </table>
         </div>
+        </>
       )}
       <Pagination page={pagination.page} totalPages={pagination.totalPages} onPageChange={setPage} />
     </div>

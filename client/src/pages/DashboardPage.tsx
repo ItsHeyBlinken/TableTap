@@ -27,7 +27,7 @@ export function DashboardPage() {
         </div>
         <Link
           to="/sell"
-          className="rounded-lg bg-green-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-green-700"
+          className="touch-target inline-flex w-full items-center justify-center rounded-xl bg-green-600 px-5 py-3.5 text-base font-bold text-white hover:bg-green-700 sm:w-auto"
         >
           Record sale
         </Link>
@@ -54,7 +54,29 @@ export function DashboardPage() {
         {stats.profitByEvent.length === 0 ? (
           <p className="text-slate-600">No sales yet. Record a sale and assign an event to track show profit.</p>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+          <>
+          <ul className="space-y-3 md:hidden">
+            {stats.profitByEvent.map((row) => (
+              <li
+                key={row.event_id ?? "none"}
+                className="rounded-xl border border-slate-200 bg-white p-4"
+              >
+                <p className="font-semibold text-slate-900">{row.event_name}</p>
+                <p className="mt-1 text-sm text-slate-600">
+                  {row.sales_count} sale{row.sales_count !== 1 ? "s" : ""} ·{" "}
+                  {formatCurrency(row.revenue)} revenue
+                </p>
+                <p
+                  className={`mt-2 text-lg font-bold ${
+                    row.profit >= 0 ? "text-green-700" : "text-red-700"
+                  }`}
+                >
+                  {formatCurrency(row.profit)} profit
+                </p>
+              </li>
+            ))}
+          </ul>
+          <div className="hidden overflow-x-auto rounded-xl border border-slate-200 bg-white md:block">
             <table className="min-w-full text-sm">
               <thead className="border-b bg-slate-50">
                 <tr>
@@ -82,6 +104,7 @@ export function DashboardPage() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </section>
 

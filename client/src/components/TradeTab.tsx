@@ -89,8 +89,7 @@ export function TradeTab({
     }
   };
 
-  const inputClass =
-    "w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
+  const inputClass = "input-mobile w-full";
 
   if (stock.length === 0) {
     return <p className="text-slate-600">Add stock before recording a trade.</p>;
@@ -110,7 +109,7 @@ export function TradeTab({
         className={inputClass}
       />
 
-      <ul className="max-h-32 overflow-y-auto rounded-lg border border-slate-200 bg-white">
+      <ul className="max-h-[min(40vh,280px)] overflow-y-auto rounded-lg border border-slate-200 bg-white">
         {filtered.map((c) => (
           <li key={c.id}>
             <button
@@ -119,7 +118,7 @@ export function TradeTab({
                 onSelectId(c.id);
                 setOutgoingValue("");
               }}
-              className={`w-full px-4 py-2.5 text-left text-sm ${
+              className={`touch-target w-full px-4 py-3.5 text-left text-sm active:bg-slate-50 ${
                 c.id === selectedId ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-slate-50"
               }`}
             >

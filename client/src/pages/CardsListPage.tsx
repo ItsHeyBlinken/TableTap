@@ -54,7 +54,7 @@ export function CardsListPage() {
         </div>
         <Link
           to="/cards/new"
-          className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          className="touch-target inline-flex items-center rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
         >
           + Add stock
         </Link>
@@ -77,7 +77,32 @@ export function CardsListPage() {
       ) : cards.length === 0 ? (
         <p className="text-slate-600">No cards found.</p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+        <>
+        <ul className="space-y-3 md:hidden">
+          {cards.map((card) => (
+            <li key={card.id} className="rounded-xl border border-slate-200 bg-white p-4">
+              <Link to={`/cards/${card.id}`} className="text-lg font-semibold text-brand-600">
+                {card.player_name}
+              </Link>
+              <p className="text-sm text-slate-600">
+                {card.year} {card.brand}
+                {card.sport ? ` · ${card.sport}` : ""}
+              </p>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-sm text-slate-600">
+                  Cost <span className="font-semibold text-slate-900">{formatCurrency(card.cost_basis)}</span>
+                </span>
+                <Link
+                  to={`/sell?card=${card.id}`}
+                  className="touch-target inline-flex items-center rounded-lg bg-green-600 px-4 py-2.5 text-sm font-bold text-white"
+                >
+                  Sell
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="hidden overflow-x-auto rounded-xl border border-slate-200 bg-white md:block">
           <table className="min-w-full text-left text-sm">
             <thead className="border-b border-slate-200 bg-slate-50">
               <tr>
@@ -114,6 +139,7 @@ export function CardsListPage() {
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       <Pagination page={pagination.page} totalPages={pagination.totalPages} onPageChange={setPage} />

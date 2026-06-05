@@ -26,19 +26,19 @@ export function SearchFilters({
         placeholder="Search player, brand, team..."
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+        className="input-mobile"
       />
       <input
         type="text"
         placeholder="Sport"
         value={sport}
         onChange={(e) => onSportChange(e.target.value)}
-        className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+        className="input-mobile"
       />
       <select
         value={status}
         onChange={(e) => onStatusChange(e.target.value)}
-        className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+        className="input-mobile"
       >
         <option value="">All status</option>
         <option value="active">Unsold</option>
@@ -47,7 +47,7 @@ export function SearchFilters({
       <select
         value={graded}
         onChange={(e) => onGradedChange(e.target.value)}
-        className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+        className="input-mobile"
       >
         <option value="">Graded & raw</option>
         <option value="true">Graded only</option>

@@ -4,4 +4,31 @@
 
 body {
   @apply bg-slate-50 text-slate-900 antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .main-with-mobile-nav {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: 768px) {
+    .main-with-mobile-nav {
+      padding-bottom: 2rem;
+    }
+  }
+
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+@layer components {
+  .input-mobile {
+    @apply rounded-lg border border-slate-300 px-4 py-3 text-base focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500;
+  }
 }

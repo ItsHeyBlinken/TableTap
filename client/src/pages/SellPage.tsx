@@ -63,7 +63,7 @@ export function SellPage() {
   };
 
   return (
-    <div className="mx-auto max-w-lg">
+    <div className="mx-auto w-full max-w-lg">
       <div className="mb-4">
         <h1 className="text-2xl font-bold text-slate-900">Record sale</h1>
         <p className="text-sm text-slate-600">Built for busy tables — search, price, done.</p>
@@ -82,7 +82,7 @@ export function SellPage() {
         <button
           type="button"
           onClick={() => setTab("stock")}
-          className={`flex-1 rounded-md py-2.5 text-sm font-semibold ${
+          className={`touch-target flex-1 rounded-md py-3 text-xs font-semibold sm:text-sm ${
             tab === "stock" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"
           }`}
         >
@@ -91,7 +91,7 @@ export function SellPage() {
         <button
           type="button"
           onClick={() => setTab("quick")}
-          className={`flex-1 rounded-md py-2.5 text-sm font-semibold ${
+          className={`touch-target flex-1 rounded-md py-3 text-xs font-semibold sm:text-sm ${
             tab === "quick" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"
           }`}
         >
@@ -100,7 +100,7 @@ export function SellPage() {
         <button
           type="button"
           onClick={() => setTab("trade")}
-          className={`flex-1 rounded-md py-2.5 text-sm font-semibold ${
+          className={`touch-target flex-1 rounded-md py-3 text-xs font-semibold sm:text-sm ${
             tab === "trade" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"
           }`}
         >
@@ -160,11 +160,11 @@ export function SellPage() {
             placeholder="Search player, brand, team…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 text-base"
+            className="input-mobile w-full"
             autoComplete="off"
           />
 
-          <ul className="max-h-40 overflow-y-auto rounded-lg border border-slate-200 bg-white">
+          <ul className="max-h-[min(40vh,280px)] overflow-y-auto rounded-lg border border-slate-200 bg-white">
             {filtered.length === 0 ? (
               <li className="px-4 py-3 text-sm text-slate-500">No matches</li>
             ) : (
@@ -173,7 +173,7 @@ export function SellPage() {
                   <button
                     type="button"
                     onClick={() => setSelectedId(c.id)}
-                    className={`w-full px-4 py-3 text-left text-sm transition ${
+                    className={`touch-target w-full px-4 py-3.5 text-left text-sm transition active:bg-slate-100 ${
                       c.id === selectedId
                         ? "bg-brand-50 font-semibold text-brand-800"
                         : "hover:bg-slate-50"
