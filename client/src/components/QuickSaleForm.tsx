@@ -4,6 +4,8 @@ import { formatCurrency, previewProfit } from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
 import type { Card } from "../types";
 import { EventSelect } from "./EventSelect";
+import { FormDatalistInput } from "./FormSelect";
+import { CARD_BRANDS } from "../lib/stockOptions";
 
 interface QuickSaleFormProps {
   onSuccess?: (card: Card, profit: number) => void;
@@ -85,11 +87,14 @@ export function QuickSaleForm({ onSuccess }: QuickSaleFormProps) {
         className={inputClass}
         autoFocus
       />
-      <input
-        required
-        placeholder="Brand / set *"
+      <FormDatalistInput
+        hideLabel
         value={brand}
-        onChange={(e) => setBrand(e.target.value)}
+        onChange={setBrand}
+        options={CARD_BRANDS}
+        placeholder="Brand / set *"
+        listId="quick-sale-brands"
+        required
         className={inputClass}
       />
       <div className="grid grid-cols-2 gap-3">

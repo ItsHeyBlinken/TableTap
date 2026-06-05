@@ -1,13 +1,24 @@
 import { useState } from "react";
 import type { CardFormData } from "../types";
 import { apiUpload } from "../lib/api";
-import { CARD_CONDITIONS, isKnownCondition } from "../lib/cardConditions";
+import {
+  CARD_BRANDS,
+  CARD_CONDITIONS,
+  CARD_GRADES,
+  CARD_SPORTS,
+  GRADING_COMPANIES,
+  STOCK_QUANTITIES,
+  getCardYearOptions,
+} from "../lib/stockOptions";
+import { FormDatalistInput, FormSelect } from "./FormSelect";
 
 interface CardFormProps {
   initial: CardFormData;
   onSubmit: (data: CardFormData) => Promise<void>;
   submitLabel: string;
 }
+
+const YEAR_OPTIONS = getCardYearOptions();
 
 export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
   const [form, setForm] = useState<CardFormData>(initial);
@@ -48,7 +59,7 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
   };
 
   const inputClass =
-    "w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
+    "input-mobile w-full rounded-lg border border-slate-300 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -61,50 +72,74 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className="mb-1 block text-sm font-medium">Player name *</label>
-          <input required className={inputClass} value={form.player_name} onChange={(e) => update("player_name", e.target.value)} />
+          <input
+            required
+            className={inputClass}
+            value={form.player_name}
+            onChange={(e) => update("player_name", e.target.value)}
+          />
         </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium">Year *</label>
-          <input required type="number" className={inputClass} value={form.year} onChange={(e) => update("year", e.target.value)} />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium">Brand / set *</label>
-          <input required className={inputClass} value={form.brand} onChange={(e) => update("brand", e.target.value)} />
-        </div>
+
+        <FormSelect
+          label="Year *"
+          value={form.year}
+          onChange={(v) => update("year", v)}
+          options={YEAR_OPTIONS}
+          placeholder="Select year"
+          required
+        />
+
+        <FormDatalistInput
+          label="Brand / set *"
+          value={form.brand}
+          onChange={(v) => update("brand", v)}
+          options={CARD_BRANDS}
+          placeholder="Pick or type set name"
+          listId="stock-brands"
+          required
+        />
+
         <div>
           <label className="mb-1 block text-sm font-medium">Card number</label>
-          <input className={inputClass} value={form.card_number} onChange={(e) => update("card_number", e.target.value)} />
+          <input
+            className={inputClass}
+            value={form.card_number}
+            onChange={(e) => update("card_number", e.target.value)}
+            placeholder="e.g. 250"
+          />
         </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium">Sport</label>
-          <input className={inputClass} value={form.sport} onChange={(e) => update("sport", e.target.value)} />
-        </div>
+
+        <FormSelect
+          label="Sport"
+          value={form.sport}
+          onChange={(v) => update("sport", v)}
+          options={CARD_SPORTS}
+          placeholder="Select sport"
+        />
+
         <div>
           <label className="mb-1 block text-sm font-medium">Team</label>
-          <input className={inputClass} value={form.team} onChange={(e) => update("team", e.target.value)} />
+          <input
+            className={inputClass}
+            value={form.team}
+            onChange={(e) => update("team", e.target.value)}
+            placeholder="Optional"
+          />
         </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium">Condition</label>
-          <select
-            className={`${inputClass} input-mobile`}
-            value={form.condition}
-            onChange={(e) => update("condition", e.target.value)}
-          >
-            <option value="">Select condition</option>
-            {CARD_CONDITIONS.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-            {form.condition && !isKnownCondition(form.condition) && (
-              <option value={form.condition}>{form.condition}</option>
-            )}
-          </select>
-        </div>
+
+        <FormSelect
+          label="Condition"
+          value={form.condition}
+          onChange={(v) => update("condition", v)}
+          options={CARD_CONDITIONS}
+          placeholder="Select condition"
+        />
+
         <div>
           <label className="mb-1 block text-sm font-medium">Cost basis (what you paid) *</label>
           <input
             type="number"
+            inputMode="decimal"
             step="0.01"
             min="0"
             required
@@ -114,35 +149,55 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
             placeholder="Used to calculate profit on sale"
           />
         </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium">Quantity</label>
-          <input type="number" min="1" className={inputClass} value={form.quantity} onChange={(e) => update("quantity", e.target.value)} />
-        </div>
+
+        <FormSelect
+          label="Quantity"
+          value={form.quantity}
+          onChange={(v) => update("quantity", v)}
+          options={STOCK_QUANTITIES}
+          placeholder="1"
+        />
       </div>
 
       <div className="flex items-center gap-2">
-        <input type="checkbox" id="graded" checked={form.graded} onChange={(e) => update("graded", e.target.checked)} />
+        <input
+          type="checkbox"
+          id="graded"
+          checked={form.graded}
+          onChange={(e) => update("graded", e.target.checked)}
+        />
         <label htmlFor="graded" className="text-sm font-medium">
-          Graded
+          Graded (slab)
         </label>
       </div>
 
       {form.graded && (
         <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label className="mb-1 block text-sm font-medium">Grading company</label>
-            <input className={inputClass} value={form.grading_company} onChange={(e) => update("grading_company", e.target.value)} />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium">Grade</label>
-            <input className={inputClass} value={form.grade} onChange={(e) => update("grade", e.target.value)} />
-          </div>
+          <FormSelect
+            label="Grading company"
+            value={form.grading_company}
+            onChange={(v) => update("grading_company", v)}
+            options={GRADING_COMPANIES}
+            placeholder="Select company"
+          />
+          <FormSelect
+            label="Grade"
+            value={form.grade}
+            onChange={(v) => update("grade", v)}
+            options={CARD_GRADES}
+            placeholder="Select grade"
+          />
         </div>
       )}
 
       <div>
         <label className="mb-1 block text-sm font-medium">Notes</label>
-        <textarea rows={3} className={inputClass} value={form.notes} onChange={(e) => update("notes", e.target.value)} />
+        <textarea
+          rows={3}
+          className={inputClass}
+          value={form.notes}
+          onChange={(e) => update("notes", e.target.value)}
+        />
       </div>
 
       <div>
@@ -163,7 +218,7 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="rounded-lg bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-50"
+        className="touch-target w-full rounded-xl bg-brand-600 px-6 py-3.5 text-base font-semibold text-white hover:bg-brand-700 disabled:opacity-50 sm:w-auto"
       >
         {loading ? "Saving..." : submitLabel}
       </button>

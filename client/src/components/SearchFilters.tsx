@@ -1,3 +1,5 @@
+import { CARD_SPORTS } from "../lib/stockOptions";
+
 interface SearchFiltersProps {
   search: string;
   sport: string;
@@ -28,13 +30,14 @@ export function SearchFilters({
         onChange={(e) => onSearchChange(e.target.value)}
         className="input-mobile"
       />
-      <input
-        type="text"
-        placeholder="Sport"
-        value={sport}
-        onChange={(e) => onSportChange(e.target.value)}
-        className="input-mobile"
-      />
+      <select value={sport} onChange={(e) => onSportChange(e.target.value)} className="input-mobile">
+        <option value="">All sports</option>
+        {CARD_SPORTS.map((s) => (
+          <option key={s} value={s}>
+            {s}
+          </option>
+        ))}
+      </select>
       <select
         value={status}
         onChange={(e) => onStatusChange(e.target.value)}

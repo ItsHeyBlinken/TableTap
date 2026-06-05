@@ -4,6 +4,13 @@ import { cardLabel, formatCurrency, previewProfit } from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
 import type { Card, TradeResult } from "../types";
 import { EventSelect } from "./EventSelect";
+import { FormDatalistInput, FormSelect } from "./FormSelect";
+import {
+  CARD_BRANDS,
+  CARD_CONDITIONS,
+  CARD_SPORTS,
+  getCardYearOptions,
+} from "../lib/stockOptions";
 
 interface TradeTabProps {
   stock: Card[];
@@ -27,6 +34,9 @@ export function TradeTab({
   const [outgoingValue, setOutgoingValue] = useState("");
   const [playerName, setPlayerName] = useState("");
   const [brand, setBrand] = useState("");
+  const [year, setYear] = useState(String(new Date().getFullYear()));
+  const [sport, setSport] = useState("");
+  const [condition, setCondition] = useState("");
   const [incomingValue, setIncomingValue] = useState("");
   const [cashAdjustment, setCashAdjustment] = useState("");
   const [eventId, setEventId] = useState("");
@@ -58,6 +68,9 @@ export function TradeTab({
   const resetIncoming = () => {
     setPlayerName("");
     setBrand("");
+    setYear(String(new Date().getFullYear()));
+    setSport("");
+    setCondition("");
     setIncomingValue("");
     setOutgoingValue("");
     setCashAdjustment("");
@@ -75,6 +88,9 @@ export function TradeTab({
         incoming: {
           player_name: playerName.trim(),
           brand: brand.trim(),
+          year: year ? Number(year) : undefined,
+          sport: sport || null,
+          condition: condition || null,
           incoming_trade_value: Number(incomingValue),
         },
         cash_adjustment: cashAdjustment ? Number(cashAdjustment) : 0,
@@ -169,12 +185,38 @@ export function TradeTab({
             onChange={(e) => setPlayerName(e.target.value)}
             className={inputClass}
           />
-          <input
-            required
-            placeholder="Brand / set *"
+          <FormDatalistInput
+            label="Brand / set *"
             value={brand}
-            onChange={(e) => setBrand(e.target.value)}
+            onChange={setBrand}
+            options={CARD_BRANDS}
+            placeholder="Pick or type set"
+            listId="trade-brands"
+            required
             className={inputClass}
+          />
+          <div className="grid grid-cols-2 gap-3">
+            <FormSelect
+              label="Year"
+              value={year}
+              onChange={setYear}
+              options={getCardYearOptions()}
+              placeholder="Year"
+            />
+            <FormSelect
+              label="Sport"
+              value={sport}
+              onChange={setSport}
+              options={CARD_SPORTS}
+              placeholder="Sport"
+            />
+          </div>
+          <FormSelect
+            label="Condition"
+            value={condition}
+            onChange={setCondition}
+            options={CARD_CONDITIONS}
+            placeholder="Condition"
           />
           <div>
             <label className="mb-1 block text-sm font-medium">Value you assign (cost basis) *</label>
