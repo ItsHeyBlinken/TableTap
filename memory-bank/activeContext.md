@@ -54,6 +54,7 @@ Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 | Mobile nav | `client/src/components/MobileNav.tsx`, `AppLayout.tsx` |
 | Stock options | `client/src/lib/stockOptions.ts`, `FormSelect.tsx` |
 | Dev notes | `dev.local.md` (gitignored), `resume.md` |
+| Single-app deploy | Root `nixpacks.toml`, `npm run build` / `npm start`; server serves `client/dist` in production |
 
 ## Revisit later — CSV image ingest (S3)
 

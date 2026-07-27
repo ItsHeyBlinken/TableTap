@@ -1,0 +1,18 @@
+# Single-app production deploy (Coolify / Nixpacks).
+# Serves API + built React UI from one Node process.
+
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = [
+  "npm ci --prefix server",
+  "npm ci --prefix client",
+  "npm ci",
+]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm start"

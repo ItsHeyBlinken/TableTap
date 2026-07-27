@@ -88,6 +88,42 @@ cd client && npm install && npm run dev
 
 ## Production notes
 
+**Single-app deploy (Coolify / Nixpacks):** one service at the **repo root**. API + built UI on the same domain.
+
+| Coolify setting | Value |
+|-----------------|--------|
+| Base directory | `/` (repository root) |
+| Build pack | Nixpacks |
+| Install command | `npm ci --prefix server && npm ci --prefix client && npm ci` |
+| Build command | `npm run build` |
+| Start command | `npm start` |
+| Port | `3001` (or leave empty and set `PORT` env) |
+
+`nixpacks.toml` in the repo root defines the same install/build/start if Coolify auto-detects it.
+
+**Environment (runtime):**
+
+| Variable | Example |
+|----------|---------|
+| `NODE_ENV` | `production` |
+| `DATABASE_URL` | PostgreSQL connection string |
+| `JWT_SECRET` | long random hex string |
+| `CLIENT_URL` | `https://your-domain.com` (same as public URL) |
+| `PORT` | `3001` (Coolify may inject this) |
+| `STORAGE_DRIVER` | `s3` recommended (local uploads don’t persist across redeploys) |
+
+Run migrations `001` → `003` on production Postgres before first use.
+
+Local production smoke test:
+
+```bash
+npm run install:all
+npm run build
+NODE_ENV=production CLIENT_URL=http://localhost:3001 npm start
+```
+
+Then open http://localhost:3001
+
 - Set `NODE_ENV=production`
 - Use a strong `JWT_SECRET`
 - Configure real `DATABASE_URL` and S3 credentials
