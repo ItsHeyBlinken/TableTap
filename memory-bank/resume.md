@@ -42,5 +42,6 @@ Run in order if schema errors mention missing columns (`cash_adjustment`, `sale_
 | Private dev notes | `dev.local.md` |
 | Env vars | `server/.env` |
 | Display name (UI) | `client/src/lib/brand.ts` → TableTap |
+| CSV import | `/cards/import`, template at `/stock-import-template.csv` |
 | Active tasks / context | `memory-bank/activeContext.md` |
 | Progress log | `memory-bank/progress.md` |

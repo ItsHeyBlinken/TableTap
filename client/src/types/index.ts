@@ -91,6 +91,7 @@ export interface CardFormData {
   grading_company: string;
   grade: string;
   purchase_price: string;
+  estimated_value: string;
   quantity: string;
   notes: string;
   image_url: string;

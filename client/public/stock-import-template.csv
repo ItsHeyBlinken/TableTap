@@ -1,0 +1,3 @@
+player_name,year,brand,purchase_price,estimated_value,quantity,sport,team,card_number,condition,graded,grading_company,grade,notes,image_url
+Mike Trout,2024,Topps Chrome,25.00,50.00,1,Baseball,Angels,1,Mint,false,,,Show stock,https://example.com/card.jpg
+Billy Joe,2026,Donruss,10.00,35.00,1,Baseball,,250,Near Mint,false,,,,

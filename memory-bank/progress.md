@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-07-27
+
+- **CSV stock import (Phase 1):** `POST /api/cards/import`, `cardImportService`, `/cards/import` UI, template CSV
+- `image_url` validated as optional http(s) URL; stored as-is (S3 ingest deferred)
+- **`estimated_value` (asking price):** CSV column, stock form, list/detail/sell UI; sell form pre-fill
+- **Vendor FAQ:** `docs/FAQ.md` — payments, profit tracking, trades, scope
+
 ## 2026-06-04 (session wrap)
 
 ### Trades (Option B) — completed
@@ -17,6 +24,15 @@
 - `memory-bank/resume.md` — non-secret “back after a break” checklist
 - `dev.local.md.example` + gitignored `dev.local.md` — test logins, env reminders
 - Test users documented: `test1@test.com`, `test2@test.com` (shared dev password in `dev.local.md`)
+
+### CSV stock import (Phase 1)
+- Template + `POST /api/cards/import`; optional `image_url` stored as-is (S3 ingest deferred)
+- Columns include `purchase_price` (cost) and `estimated_value` (asking price)
+
+### Asking price (`estimated_value`)
+- Stock form field **Asking price**; shown on stock list/detail and sell picker
+- Sell form pre-fills sale price from asking price when set (editable)
+- CSV import accepts `estimated_value` column
 
 ### Mobile / show-floor UX
 - Bottom tab nav: Home, Sell, Stock, Sales, Events (`MobileNav.tsx`)

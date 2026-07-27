@@ -10,6 +10,7 @@ import { SellPage } from "./pages/SellPage";
 import { SalesPage } from "./pages/SalesPage";
 import { CardsListPage } from "./pages/CardsListPage";
 import { CardDetailPage } from "./pages/CardDetailPage";
+import { StockImportPage } from "./pages/StockImportPage";
 import { CardNewPage } from "./pages/CardNewPage";
 import { CardEditPage } from "./pages/CardEditPage";
 import { EventsPage } from "./pages/EventsPage";
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/sales" element={<SalesPage />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/cards" element={<CardsListPage />} />
+              <Route path="/cards/import" element={<StockImportPage />} />
               <Route path="/cards/new" element={<CardNewPage />} />
               <Route path="/cards/:id" element={<CardDetailPage />} />
               <Route path="/cards/:id/edit" element={<CardEditPage />} />

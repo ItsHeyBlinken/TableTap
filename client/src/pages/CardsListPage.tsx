@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiGet } from "../lib/api";
-import { formatCurrency } from "../lib/format";
+import { formatCurrency, cardAskingPrice } from "../lib/format";
 import type { Card, PaginationMeta } from "../types";
 import { SearchFilters } from "../components/SearchFilters";
 import { Pagination } from "../components/Pagination";
@@ -52,12 +52,20 @@ export function CardsListPage() {
           <h1 className="text-2xl font-bold text-slate-900">Stock on hand</h1>
           <p className="text-sm text-slate-600">Unsold inventory ready to sell at your table.</p>
         </div>
-        <Link
-          to="/cards/new"
-          className="touch-target inline-flex items-center rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-        >
-          + Add stock
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            to="/cards/import"
+            className="touch-target inline-flex items-center rounded-lg border border-brand-300 bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800 hover:bg-brand-100"
+          >
+            Import CSV
+          </Link>
+          <Link
+            to="/cards/new"
+            className="touch-target inline-flex items-center rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            + Add stock
+          </Link>
+        </div>
       </div>
 
       <SearchFilters
@@ -91,6 +99,12 @@ export function CardsListPage() {
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-sm text-slate-600">
                   Cost <span className="font-semibold text-slate-900">{formatCurrency(card.cost_basis)}</span>
+                  {cardAskingPrice(card) != null && (
+                    <span className="text-slate-500">
+                      {" "}
+                      · Ask {formatCurrency(cardAskingPrice(card))}
+                    </span>
+                  )}
                 </span>
                 <Link
                   to={`/sell?card=${card.id}`}
@@ -110,6 +124,7 @@ export function CardsListPage() {
                 <th className="px-4 py-3 font-medium">Year / Set</th>
                 <th className="px-4 py-3 font-medium">Sport</th>
                 <th className="px-4 py-3 font-medium">Cost basis</th>
+                <th className="px-4 py-3 font-medium">Ask</th>
                 <th className="px-4 py-3 font-medium"></th>
               </tr>
             </thead>
@@ -126,6 +141,9 @@ export function CardsListPage() {
                   </td>
                   <td className="px-4 py-3">{card.sport ?? "—"}</td>
                   <td className="px-4 py-3">{formatCurrency(card.cost_basis)}</td>
+                  <td className="px-4 py-3 text-slate-600">
+                    {cardAskingPrice(card) != null ? formatCurrency(cardAskingPrice(card)) : "—"}
+                  </td>
                   <td className="px-4 py-3">
                     <Link
                       to={`/sell?card=${card.id}`}

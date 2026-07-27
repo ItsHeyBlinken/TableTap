@@ -1,4 +1,5 @@
 import { Router } from "express";
+import multer from "multer";
 import {
   cardsQuerySchema,
   createCardSchema,
@@ -7,11 +8,34 @@ import {
   todayDateString,
 } from "../utils/validation.js";
 import * as cardService from "../services/cardService.js";
+import {
+  IMPORT_MAX_FILE_BYTES,
+  importCardsFromCsv,
+} from "../services/cardImportService.js";
 import { requireAuth, type AuthRequest } from "../middleware/auth.js";
 import { paramId } from "../utils/params.js";
 
 const router = Router();
 router.use(requireAuth);
+
+const csvUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: IMPORT_MAX_FILE_BYTES },
+  fileFilter: (_req, file, cb) => {
+    const name = file.originalname.toLowerCase();
+    const mime = file.mimetype.toLowerCase();
+    const ok =
+      name.endsWith(".csv") ||
+      mime === "text/csv" ||
+      mime === "application/vnd.ms-excel" ||
+      mime === "text/plain";
+    if (!ok) {
+      cb(new Error("Only CSV files are allowed"));
+      return;
+    }
+    cb(null, true);
+  },
+});
 
 router.get("/", async (req: AuthRequest, res, next) => {
   try {
@@ -31,6 +55,24 @@ router.get("/:id", async (req: AuthRequest, res, next) => {
       return;
     }
     res.json({ card });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/import", csvUpload.single("file"), async (req: AuthRequest, res, next) => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ error: "No CSV file provided" });
+      return;
+    }
+    const result = await importCardsFromCsv(req.user!.userId, req.file.buffer);
+    const fatal = result.results.find((r) => r.row === 0 && !r.ok);
+    if (fatal) {
+      res.status(400).json({ error: fatal.errors?.[0] ?? "Import failed", ...result });
+      return;
+    }
+    res.status(200).json(result);
   } catch (err) {
     next(err);
   }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaqSection } from "../components/FaqSection";
 import { APP_DISPLAY_NAME } from "../lib/brand";
 
 const features = [
@@ -40,7 +41,13 @@ export function LandingPage() {
       <header className="sticky top-0 z-10 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
           <span className="text-xl font-bold text-brand-700">{APP_DISPLAY_NAME}</span>
-          <nav className="flex gap-2 sm:gap-3">
+          <nav className="flex items-center gap-2 sm:gap-3">
+            <a
+              href="#faq"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+            >
+              FAQ
+            </a>
             <Link to="/login" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
               Log in
             </Link>
@@ -100,6 +107,8 @@ export function LandingPage() {
           </div>
         </section>
 
+        <FaqSection />
+
         <section className="bg-brand-900 py-16 text-white">
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
             <h2 className="text-3xl font-bold">Run your table like a business</h2>
@@ -118,7 +127,10 @@ export function LandingPage() {
       </main>
 
       <footer className="border-t py-8 text-center text-sm text-slate-500">
-        {APP_DISPLAY_NAME} — sports card vendor POS + profit tracker
+        {APP_DISPLAY_NAME} — sports card vendor POS + profit tracker ·{" "}
+        <a href="#faq" className="text-brand-600 hover:underline">
+          FAQ
+        </a>
       </footer>
     </div>
   );

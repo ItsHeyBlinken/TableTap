@@ -1,6 +1,6 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { apiPatch } from "../lib/api";
-import { cardLabel, formatCurrency, previewProfit } from "../lib/format";
+import { cardAskingPrice, cardLabel, formatCurrency, previewProfit } from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
 import type { Card } from "../types";
 import { EventSelect } from "./EventSelect";
@@ -12,10 +12,17 @@ interface SellFormProps {
 
 export function SellForm({ card, onSuccess }: SellFormProps) {
   const priceRef = useRef<HTMLInputElement>(null);
-  const [soldPrice, setSoldPrice] = useState("");
+  const asking = cardAskingPrice(card);
+  const [soldPrice, setSoldPrice] = useState(asking != null ? String(asking) : "");
   const [eventId, setEventId] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const next = cardAskingPrice(card);
+    setSoldPrice(next != null ? String(next) : "");
+    setError("");
+  }, [card.id, card.estimated_value]);
 
   const costBasis = card.cost_basis ?? Number(card.purchase_price ?? 0) * card.quantity;
   const profitPreview = useMemo(() => {
@@ -30,7 +37,7 @@ export function SellForm({ card, onSuccess }: SellFormProps) {
   };
 
   const resetForNext = () => {
-    setSoldPrice("");
+    setSoldPrice(asking != null ? String(asking) : "");
     setError("");
     priceRef.current?.focus();
   };
@@ -60,7 +67,12 @@ export function SellForm({ card, onSuccess }: SellFormProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
         <p className="truncate font-semibold text-slate-900">{cardLabel(card)}</p>
-        <p className="text-sm text-slate-600">Cost: {formatCurrency(costBasis)}</p>
+        <p className="text-sm text-slate-600">
+          Cost: {formatCurrency(costBasis)}
+          {asking != null && (
+            <span className="text-slate-500"> · Ask {formatCurrency(asking)}</span>
+          )}
+        </p>
       </div>
 
       {error && (

@@ -24,6 +24,7 @@
 
 | Endpoint | Purpose |
 |----------|---------|
+| `POST /api/cards/import` | Bulk CSV stock import (multipart `file`) |
 | `POST /api/trades` | Trade out + stock in (one transaction) |
 | `POST /api/sales/quick` | Walk-up sale |
 | `PATCH /api/cards/:id/sell` | Sell from stock |

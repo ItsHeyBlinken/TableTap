@@ -10,6 +10,17 @@ export const loginSchema = z.object({
   password: z.string().min(1),
 });
 
+/** Optional http(s) image link for cards and CSV import. */
+export const imageUrlSchema = z
+  .union([z.string(), z.null(), z.undefined()])
+  .transform((v) => {
+    if (v == null || String(v).trim() === "") return null;
+    return String(v).trim();
+  })
+  .refine((v) => v === null || /^https?:\/\//i.test(v), {
+    message: "image_url must start with http:// or https://",
+  });
+
 export const cardBaseSchema = z.object({
   player_name: z.string().min(1, "Player name is required"),
   year: z.coerce.number().int().min(1800).max(2100),
@@ -30,6 +41,11 @@ export const cardBaseSchema = z.object({
 
 export const createCardSchema = cardBaseSchema;
 export const updateCardSchema = cardBaseSchema;
+
+/** One CSV row mapped to card create input (image_url validated on import). */
+export const importCardRowSchema = cardBaseSchema.extend({
+  image_url: imageUrlSchema,
+});
 
 export const sellCardSchema = z.object({
   sold_price: z.coerce.number().nonnegative(),

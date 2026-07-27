@@ -2,6 +2,8 @@
 
 Sports card **vendor POS + profit tracker** for show vendors, flippers, and table sellers.
 
+**Vendor FAQ:** [docs/FAQ.md](docs/FAQ.md) — what TableTap is (and isn’t), payments, profit, trades, and common show-floor questions.
+
 ## Stack
 
 - **Frontend:** React, TypeScript, Tailwind CSS, Vite
@@ -76,6 +78,14 @@ cd client && npm install && npm run dev
 - App: http://localhost:5173  
 - API: http://localhost:3001  
 
+## CSV stock import
+
+- UI: **Stock** → **Import CSV** (`/cards/import`)
+- Template: [`client/public/stock-import-template.csv`](client/public/stock-import-template.csv)
+- Required columns: `player_name`, `year`, `brand`
+- Optional `image_url`: public `http://` or `https://` link (stored as-is; S3 ingest planned later)
+- Limits: 500 rows, 2MB per file; partial success (valid rows import even if some fail)
+
 ## Production notes
 
 - Set `NODE_ENV=production`
@@ -98,6 +108,7 @@ You manage commits locally. The agent does not commit on your behalf unless you 
 | GET | `/api/cards` | List (search, filter, pagination) |
 | GET | `/api/cards/:id` | Get one |
 | POST | `/api/cards` | Create |
+| POST | `/api/cards/import` | Bulk import stock from CSV (multipart `file`) |
 | PUT | `/api/cards/:id` | Update |
 | DELETE | `/api/cards/:id` | Delete |
 | PATCH | `/api/cards/:id/sell` | Mark sold (defaults to today) |

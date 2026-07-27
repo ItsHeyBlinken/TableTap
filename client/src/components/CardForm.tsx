@@ -150,6 +150,21 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
           />
         </div>
 
+        <div>
+          <label className="mb-1 block text-sm font-medium">Asking price</label>
+          <input
+            type="number"
+            inputMode="decimal"
+            step="0.01"
+            min="0"
+            className={inputClass}
+            value={form.estimated_value}
+            onChange={(e) => update("estimated_value", e.target.value)}
+            placeholder="Optional — pre-fill at checkout"
+          />
+          <p className="mt-1 text-xs text-slate-500">What you plan to sell for (not profit until sold).</p>
+        </div>
+
         <FormSelect
           label="Quantity"
           value={form.quantity}

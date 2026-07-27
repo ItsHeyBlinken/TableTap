@@ -11,3 +11,5 @@ Primary question: *What did I sell today, and how much did I actually make?*
 - **Mobile-first** at the table (bottom nav, large inputs, card lists not wide tables)
 
 Target environment: phone at card shows; laptop optional.
+
+**Vendor FAQ (shareable):** [`docs/FAQ.md`](../docs/FAQ.md) — payments vs tracking, cost vs ask, trades, what’s out of scope. Also on the **public homepage** (`#faq`) before sign-up.

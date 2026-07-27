@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiDelete, apiGet } from "../lib/api";
-import { formatCurrency, formatDate } from "../lib/format";
+import { formatCurrency, formatDate, cardAskingPrice } from "../lib/format";
 import type { Card } from "../types";
 import { SellForm } from "../components/SellForm";
 
@@ -61,6 +61,12 @@ export function CardDetailPage() {
               <dt className="text-slate-500">Cost basis</dt>
               <dd className="font-medium">{formatCurrency(card.cost_basis)}</dd>
             </div>
+            {card.status === "active" && cardAskingPrice(card) != null && (
+              <div>
+                <dt className="text-slate-500">Asking price</dt>
+                <dd className="font-medium">{formatCurrency(cardAskingPrice(card))}</dd>
+              </div>
+            )}
             <div>
               <dt className="text-slate-500">Status</dt>
               <dd className="font-medium capitalize">{card.status === "sold" ? "Sold" : "In stock"}</dd>

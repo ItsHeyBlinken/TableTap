@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { apiGet } from "../lib/api";
-import { cardLabel, formatCurrency } from "../lib/format";
+import { cardLabel, formatCurrency, cardAskingPrice } from "../lib/format";
 import type { Card } from "../types";
 import { SellForm } from "../components/SellForm";
 import { QuickSaleForm } from "../components/QuickSaleForm";
@@ -182,6 +182,9 @@ export function SellPage() {
                     <span className="block truncate">{cardLabel(c)}</span>
                     <span className="text-xs text-slate-500">
                       Cost {formatCurrency(c.cost_basis)}
+                      {cardAskingPrice(c) != null && (
+                        <> · Ask {formatCurrency(cardAskingPrice(c))}</>
+                      )}
                     </span>
                   </button>
                 </li>

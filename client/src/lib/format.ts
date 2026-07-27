@@ -28,6 +28,12 @@ export function previewProfit(soldPrice: number, costBasis: number): number {
   return soldPrice - costBasis;
 }
 
+/** Asking / list price when set (estimated_value > 0). */
+export function cardAskingPrice(card: { estimated_value: string | number | null | undefined }): number | null {
+  const n = Number(card.estimated_value ?? 0);
+  return n > 0 ? n : null;
+}
+
 export const emptyCardForm = {
   player_name: "",
   year: new Date().getFullYear().toString(),
@@ -40,6 +46,7 @@ export const emptyCardForm = {
   grading_company: "",
   grade: "",
   purchase_price: "",
+  estimated_value: "",
   quantity: "1",
   notes: "",
   image_url: "",
@@ -58,6 +65,8 @@ export function cardToForm(card: import("../types").Card) {
     grading_company: card.grading_company ?? "",
     grade: card.grade ?? "",
     purchase_price: card.purchase_price ? String(card.purchase_price) : "",
+    estimated_value:
+      card.estimated_value && Number(card.estimated_value) > 0 ? String(card.estimated_value) : "",
     quantity: String(card.quantity),
     notes: card.notes ?? "",
     image_url: card.image_url ?? "",
@@ -69,7 +78,7 @@ export function formToPayload(form: import("../types").CardFormData) {
     player_name: form.player_name,
     year: Number(form.year),
     brand: form.brand,
-    estimated_value: 0,
+    estimated_value: form.estimated_value ? Number(form.estimated_value) : 0,
     card_number: form.card_number || null,
     sport: form.sport || null,
     team: form.team || null,
