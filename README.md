@@ -111,6 +111,7 @@ cd client && npm install && npm run dev
 | `CLIENT_URL` | `https://your-domain.com` (same as public URL) |
 | `PORT` | `3001` (Coolify may inject this) |
 | `STORAGE_DRIVER` | `s3` recommended (local uploads don’t persist across redeploys) |
+| `VITE_FEEDBACK_EMAIL` | (build-time) Enables “Email pricing feedback” on `/pricing` |
 
 Run migrations `001` → `003` on production Postgres before first use.
 
