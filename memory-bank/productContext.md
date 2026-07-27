@@ -12,4 +12,8 @@ Primary question: *What did I sell today, and how much did I actually make?*
 
 Target environment: phone at card shows; laptop optional.
 
+**Live testing:** https://tabletap.bytesbyblinken.com (Coolify; billing not enabled yet).
+
 **Vendor FAQ (shareable):** [`docs/FAQ.md`](../docs/FAQ.md) — payments vs tracking, cost vs ask, trades, what’s out of scope. Also on the **public homepage** (`#faq`) before sign-up.
+
+**Pricing (draft for feedback):** `/pricing` — Options A (simple monthly), B (Free + Pro), C (season pass). No Stripe yet; collecting vendor input before locking a plan.

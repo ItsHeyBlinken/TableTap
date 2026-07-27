@@ -22,3 +22,9 @@ Lightweight POS + profit tracking for sports card show vendors, flippers, and ta
 ## Out of scope
 
 Collectors, portfolio valuation, AI scanning, market pricing APIs.
+
+## Status (2026-07-27)
+
+- **Testing live** on Coolify: https://tabletap.bytesbyblinken.com
+- Public FAQ + draft `/pricing` for vendor feedback; **no billing** yet
+- Single-app deploy (API + SPA) via Nixpacks — see `memory-bank/techContext.md`

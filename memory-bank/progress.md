@@ -5,7 +5,11 @@
 - **CSV stock import (Phase 1):** `POST /api/cards/import`, `cardImportService`, `/cards/import` UI, template CSV
 - `image_url` validated as optional http(s) URL; stored as-is (S3 ingest deferred)
 - **`estimated_value` (asking price):** CSV column, stock form, list/detail/sell UI; sell form pre-fill
-- **Vendor FAQ:** `docs/FAQ.md` — payments, profit tracking, trades, scope
+- **Vendor FAQ:** `docs/FAQ.md` + homepage `#faq` accordion (`content/faq.ts`)
+- **Single-app Coolify deploy:** `nixpacks.toml`; root `build`/`start`; Express serves `client/dist` in production
+- **Testing live:** https://tabletap.bytesbyblinken.com (GitHub → Coolify, one app)
+- **Pricing feedback page:** `/pricing` — draft Options A/B/C for vendor input; no billing yet
+- Optional `VITE_FEEDBACK_EMAIL` for pricing mailto CTA
 
 ## 2026-06-04 (session wrap)
 

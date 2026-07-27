@@ -10,7 +10,17 @@ cp dev.local.md.example dev.local.md
 
 Then fill in your test email, password, and `DATABASE_URL` notes.
 
-## Start the app
+## Live testing (Coolify)
+
+| | |
+|--|--|
+| App | https://tabletap.bytesbyblinken.com |
+| Pricing feedback | https://tabletap.bytesbyblinken.com/pricing |
+| Health | https://tabletap.bytesbyblinken.com/api/health |
+
+Single Coolify app from GitHub; see `nixpacks.toml` and `memory-bank/techContext.md`.
+
+## Start the app (local)
 
 ```bash
 npm run dev
@@ -23,7 +33,7 @@ npm run dev
 
 ## Migrations (manual in pgAdmin)
 
-Run in order if schema errors mention missing columns (`cash_adjustment`, `sale_type`, etc.):
+Run in order if schema errors mention missing columns (`cash_adjustment`, `sale_type`, etc.) — **local and production DB**:
 
 1. `server/migrations/001_init.sql`
 2. `server/migrations/002_sales_events.sql`
@@ -43,5 +53,8 @@ Run in order if schema errors mention missing columns (`cash_adjustment`, `sale_
 | Env vars | `server/.env` |
 | Display name (UI) | `client/src/lib/brand.ts` → TableTap |
 | CSV import | `/cards/import`, template at `/stock-import-template.csv` |
+| Vendor FAQ | homepage `#faq`, `docs/FAQ.md` |
+| Pricing (draft) | `/pricing` |
+| Deploy | `nixpacks.toml`, root `npm run build` / `npm start` |
 | Active tasks / context | `memory-bank/activeContext.md` |
 | Progress log | `memory-bank/progress.md` |

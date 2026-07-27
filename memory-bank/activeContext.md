@@ -2,7 +2,24 @@
 
 **Last updated:** 2026-07-27
 
-## Picking up again
+## Live testing (Coolify)
+
+| | |
+|--|--|
+| **Status** | **Deployed and live** (testing) |
+| **URL** | https://tabletap.bytesbyblinken.com |
+| **Pricing feedback** | https://tabletap.bytesbyblinken.com/pricing |
+| **Health** | https://tabletap.bytesbyblinken.com/api/health |
+| **Host** | Coolify · GitHub `ItsHeyBlinken/TableTap` · **one app** (Nixpacks) |
+| **Deploy** | Root `nixpacks.toml`; Express serves API + `client/dist` |
+
+**Coolify commands (repo root):** Install `npm ci --prefix server && npm ci --prefix client && npm ci` · Build `npm run build` · Start `npm start`
+
+**Prod env (API process):** `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET`, `CLIENT_URL=https://tabletap.bytesbyblinken.com`, `PORT`. Optional build-time: `VITE_FEEDBACK_EMAIL` for pricing mailto.
+
+**Billing:** Not connected yet. `/pricing` is draft options for vendor feedback only.
+
+## Picking up again (local)
 
 See [`resume.md`](resume.md) and private `dev.local.md` (copy from `dev.local.md.example`) for test logins, URLs, migrations.
 
@@ -22,7 +39,7 @@ npm run dev
 
 ## Database (pgAdmin — manual)
 
-Run in order if not already applied:
+Run in order if not already applied (local **and** Coolify Postgres):
 
 1. `server/migrations/001_init.sql`
 2. `server/migrations/002_sales_events.sql`
@@ -30,7 +47,11 @@ Run in order if not already applied:
 
 Schema errors like `column c.cash_adjustment does not exist` → run `003`.
 
-## App routes (logged in)
+## App routes
+
+**Public:** `/` (landing + FAQ), `/pricing` (draft pricing feedback), `/login`, `/register`
+
+**Logged in:**
 
 - `/dashboard` — today’s profit, vendor KPIs, profit by event
 - `/sell` — **From stock** | **Quick sale** | **Trade**
@@ -46,6 +67,9 @@ Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 
 | Area | Path |
 |------|------|
+| Single-app deploy | `nixpacks.toml`, root `package.json` (`build`/`start`), `server/src/index.ts` serves SPA in production |
+| Pricing feedback page | `/pricing` — `PricingPage.tsx`, `content/pricingOptions.ts` |
+| Vendor FAQ (UI) | Landing `#faq` — `FaqSection.tsx`, `content/faq.ts`; docs: `docs/FAQ.md` |
 | CSV import API | `server/src/services/cardImportService.ts`, `POST /api/cards/import` |
 | CSV import UI | `client/src/pages/StockImportPage.tsx`, template in `client/public/stock-import-template.csv` |
 | Asking price (`estimated_value`) | `CardForm.tsx`, `format.ts` (`cardAskingPrice`), stock list/detail/sell pre-fill |
@@ -54,7 +78,6 @@ Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 | Mobile nav | `client/src/components/MobileNav.tsx`, `AppLayout.tsx` |
 | Stock options | `client/src/lib/stockOptions.ts`, `FormSelect.tsx` |
 | Dev notes | `dev.local.md` (gitignored), `resume.md` |
-| Single-app deploy | Root `nixpacks.toml`, `npm run build` / `npm start`; server serves `client/dist` in production |
 
 ## Revisit later — CSV image ingest (S3)
 
