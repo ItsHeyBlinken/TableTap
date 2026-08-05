@@ -1,6 +1,6 @@
 # Active Context
 
-**Last updated:** 2026-07-27
+**Last updated:** 2026-08-04
 
 ## Live testing (Coolify)
 
@@ -49,7 +49,9 @@ Schema errors like `column c.cash_adjustment does not exist` → run `003`.
 
 ## App routes
 
-**Public:** `/` (landing + FAQ), `/pricing` (draft pricing feedback), `/login`, `/register`
+**Public:** `/` (landing + FAQ), `/guide` (how-to + features), `/pricing` (draft pricing feedback), `/login`, `/register`
+
+**Post-register:** `/welcome` (4-step quick start; then dashboard)
 
 **Logged in:**
 
@@ -67,6 +69,8 @@ Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 
 | Area | Path |
 |------|------|
+| Onboarding guide | `/guide` — `GuidePage.tsx`, `content/onboarding.ts` |
+| Welcome + checklist | `/welcome`, dashboard `GettingStartedChecklist.tsx`, `lib/onboardingStorage.ts` |
 | Single-app deploy | `nixpacks.toml`, root `package.json` (`build`/`start`), `server/src/index.ts` serves SPA in production |
 | Pricing feedback page | `/pricing` — `PricingPage.tsx`, `content/pricingOptions.ts` |
 | Vendor FAQ (UI) | Landing `#faq` — `FaqSection.tsx`, `content/faq.ts`; docs: `docs/FAQ.md` |

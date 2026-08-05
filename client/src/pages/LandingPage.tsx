@@ -64,6 +64,10 @@ export function LandingPage() {
           </Link>
         </div>
         <p className="mt-6 text-sm text-slate-500">
+          <Link to="/guide" className="font-medium text-brand-600 hover:underline">
+            How to use TableTap
+          </Link>
+          {" · "}
           <Link to="/pricing" className="font-medium text-brand-600 hover:underline">
             See draft pricing options
           </Link>{" "}

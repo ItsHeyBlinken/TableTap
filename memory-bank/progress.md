@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-08-04
+
+- **Onboarding:** public `/guide` (features, show-day workflow, key concepts)
+- Post-register `/welcome` (4 quick steps); register → welcome → dashboard
+- Dashboard **Getting started** checklist (auto-complete from API; dismiss via localStorage)
+- Settings: links to guide, quick start, reset checklist
+- Spec: `docs/superpowers/specs/2026-08-04-onboarding-design.md`
+
 ## 2026-07-27
 
 - **CSV stock import (Phase 1):** `POST /api/cards/import`, `cardImportService`, `/cards/import` UI, template CSV

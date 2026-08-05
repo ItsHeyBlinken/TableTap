@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { apiGet } from "../lib/api";
 import { cardLabel, formatCurrency, formatDate } from "../lib/format";
 import type { VendorDashboard } from "../types";
+import { GettingStartedChecklist } from "../components/GettingStartedChecklist";
 import { StatCard } from "../components/StatCard";
 
 export function DashboardPage() {
@@ -32,6 +33,8 @@ export function DashboardPage() {
           Record sale
         </Link>
       </div>
+
+      <GettingStartedChecklist stats={stats} />
 
       <div className="mb-6 rounded-2xl border-2 border-green-200 bg-green-50 p-6 text-center sm:text-left">
         <p className="text-sm font-semibold uppercase tracking-wide text-green-800">Today&apos;s profit</p>

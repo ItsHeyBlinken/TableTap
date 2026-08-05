@@ -15,7 +15,8 @@ Then fill in your test email, password, and `DATABASE_URL` notes.
 | | |
 |--|--|
 | App | https://tabletap.bytesbyblinken.com |
-| Pricing feedback | https://tabletap.bytesbyblinken.com/pricing |
+| Pricing (draft) | https://tabletap.bytesbyblinken.com/pricing |
+| Guide | https://tabletap.bytesbyblinken.com/guide |
 | Health | https://tabletap.bytesbyblinken.com/api/health |
 
 Single Coolify app from GitHub; see `nixpacks.toml` and `memory-bank/techContext.md`.
@@ -54,6 +55,7 @@ Run in order if schema errors mention missing columns (`cash_adjustment`, `sale_
 | Display name (UI) | `client/src/lib/brand.ts` → TableTap |
 | CSV import | `/cards/import`, template at `/stock-import-template.csv` |
 | Vendor FAQ | homepage `#faq`, `docs/FAQ.md` |
+| Guide / onboarding | `/guide`, `/welcome`, dashboard checklist |
 | Pricing (draft) | `/pricing` |
 | Deploy | `nixpacks.toml`, root `npm run build` / `npm start` |
 | Active tasks / context | `memory-bank/activeContext.md` |

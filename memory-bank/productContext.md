@@ -17,3 +17,5 @@ Target environment: phone at card shows; laptop optional.
 **Vendor FAQ (shareable):** [`docs/FAQ.md`](../docs/FAQ.md) — payments vs tracking, cost vs ask, trades, what’s out of scope. Also on the **public homepage** (`#faq`) before sign-up.
 
 **Pricing (draft for feedback):** `/pricing` — Options A (simple monthly), B (Free + Pro), C (season pass). No Stripe yet; collecting vendor input before locking a plan.
+
+**Onboarding:** `/guide` (public how-to) · `/welcome` after register · dashboard checklist until complete or dismissed.

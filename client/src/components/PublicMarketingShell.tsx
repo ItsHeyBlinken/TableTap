@@ -16,6 +16,12 @@ export function PublicMarketingShell({ children }: PublicMarketingShellProps) {
           </Link>
           <nav className="flex items-center gap-2 sm:gap-3">
             <Link
+              to="/guide"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+            >
+              Guide
+            </Link>
+            <Link
               to="/pricing"
               className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
             >
@@ -41,6 +47,10 @@ export function PublicMarketingShell({ children }: PublicMarketingShellProps) {
 
       <footer className="border-t py-8 text-center text-sm text-slate-500">
         {APP_DISPLAY_NAME} — sports card vendor POS + profit tracker ·{" "}
+        <Link to="/guide" className="text-brand-600 hover:underline">
+          Guide
+        </Link>
+        {" · "}
         <Link to="/pricing" className="text-brand-600 hover:underline">
           Pricing
         </Link>
