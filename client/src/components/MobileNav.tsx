@@ -1,5 +1,7 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { APP_DISPLAY_NAME } from "../lib/brand";
+import { MobileMenu, type MobileMenuItem } from "./MobileMenu";
+import { useAuth } from "../context/AuthContext";
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
   `flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 px-1 text-[11px] font-medium leading-tight ${
@@ -12,18 +14,35 @@ const sellClass = ({ isActive }: { isActive: boolean }) =>
   }`;
 
 export function MobileHeader() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
+
+  const menuItems: MobileMenuItem[] = [
+    { label: "Settings", to: "/settings" },
+    { label: "How to use TableTap", to: "/guide" },
+    { label: "Quick start", to: "/welcome" },
+    { label: "Log out", to: "/login", onClick: handleLogout },
+  ];
+
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur-sm md:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         <Link to="/dashboard" className="text-lg font-bold text-brand-700">
           {APP_DISPLAY_NAME}
         </Link>
-        <Link
-          to="/settings"
-          className="touch-target rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
-        >
-          Settings
-        </Link>
+        <div className="flex items-center gap-1">
+          {user && (
+            <span className="max-w-[120px] truncate text-xs text-slate-500 sm:max-w-[160px]">
+              {user.email}
+            </span>
+          )}
+          <MobileMenu items={menuItems} menuLabel="Account menu" />
+        </div>
       </div>
     </header>
   );

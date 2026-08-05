@@ -6,6 +6,7 @@
 - Post-register `/welcome` (4 quick steps); register → welcome → dashboard
 - Dashboard **Getting started** checklist (auto-complete from API; dismiss via localStorage)
 - Settings: links to guide, quick start, reset checklist
+- **Mobile hamburger menu:** public pages (`PublicMarketingShell`) + logged-in header (`MobileMenu.tsx`)
 - Spec: `docs/superpowers/specs/2026-08-04-onboarding-design.md`
 
 ## 2026-07-27

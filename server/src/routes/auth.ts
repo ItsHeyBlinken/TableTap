@@ -1,7 +1,10 @@
 import { Router } from "express";
+import jwt from "jsonwebtoken";
 import { registerSchema, loginSchema } from "../utils/validation.js";
 import * as authService from "../services/authService.js";
-import { requireAuth, setAuthCookie, clearAuthCookie, type AuthRequest } from "../middleware/auth.js";
+import { setAuthCookie, clearAuthCookie } from "../middleware/auth.js";
+import { config } from "../config.js";
+import type { JwtPayload } from "../types/index.js";
 
 const router = Router();
 
@@ -31,11 +34,23 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/me", requireAuth, async (req: AuthRequest, res, next) => {
+router.get("/me", async (req, res, next) => {
   try {
-    const user = await authService.getUserById(req.user!.userId);
+    const token = req.cookies[config.cookieName];
+    if (!token) {
+      res.json({ user: null });
+      return;
+    }
+    let payload: JwtPayload;
+    try {
+      payload = jwt.verify(token, config.jwtSecret) as JwtPayload;
+    } catch {
+      res.json({ user: null });
+      return;
+    }
+    const user = await authService.getUserById(payload.userId);
     if (!user) {
-      res.status(401).json({ error: "User not found" });
+      res.json({ user: null });
       return;
     }
     res.json({ user: { id: user.id, email: user.email } });

@@ -1,20 +1,30 @@
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
 import { APP_DISPLAY_NAME } from "../lib/brand";
+import { MobileMenu, type MobileMenuItem } from "./MobileMenu";
 
 interface PublicMarketingShellProps {
   children: ReactNode;
 }
 
+const PUBLIC_MENU_ITEMS: MobileMenuItem[] = [
+  { label: "Guide", to: "/guide" },
+  { label: "Pricing", to: "/pricing" },
+  { label: "FAQ", to: "/#faq" },
+  { label: "Log in", to: "/login" },
+  { label: "Get started", to: "/register", variant: "primary" },
+];
+
 export function PublicMarketingShell({ children }: PublicMarketingShellProps) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-brand-50 via-white to-slate-50">
-      <header className="sticky top-0 z-10 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm">
+      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
           <Link to="/" className="text-xl font-bold text-brand-700 hover:text-brand-800">
             {APP_DISPLAY_NAME}
           </Link>
-          <nav className="flex items-center gap-2 sm:gap-3">
+
+          <nav className="hidden items-center gap-2 md:flex md:gap-3" aria-label="Main">
             <Link
               to="/guide"
               className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
@@ -40,6 +50,8 @@ export function PublicMarketingShell({ children }: PublicMarketingShellProps) {
               Get started
             </Link>
           </nav>
+
+          <MobileMenu items={PUBLIC_MENU_ITEMS} menuLabel="Site navigation" />
         </div>
       </header>
 
