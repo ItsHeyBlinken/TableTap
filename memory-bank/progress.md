@@ -68,6 +68,10 @@
 
 ---
 
+## 2026-08-24
+
+- Posted market-validation question in a Facebook card-shows group (inventory + profit tracking at shows; mentioned building a phone-first tool; no product link in post)
+
 ## 2026-06-04 (earlier entries)
 
 - Added `memory-bank/resume.md` + gitignored `dev.local.md` template for returning to the project
