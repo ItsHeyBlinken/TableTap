@@ -2,6 +2,7 @@
 
 ## 2026-09-25
 
+- **Cart overlay fix:** Removed sticky cart; sits below sell form so Qty/unit price stay visible — user confirmed working
 - **POS checkout Task 8 (SDD):** Memory bank + FAQ — checkout patterns, `POST /api/sales/checkout` in techContext, multi-item / partial qty vendor Q; report `.superpowers/sdd/task-8-report.md`
 - **POS checkout feature (SDD complete):** Tasks 1–7 — migration `004`, checkout API/service, Sell cart + sticky session, Sales receipt grouping; user applies `004` in pgAdmin; Quick sale + Trade tabs unchanged; no payment processing
 - **POS checkout Task 7 (SDD):** Sales page groups sold cards by `transaction_id` (`groupSales.ts`, expandable receipts on mobile/desktop); pagination remains per card row; client build PASS; report `.superpowers/sdd/task-7-report.md`
