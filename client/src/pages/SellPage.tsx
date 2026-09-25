@@ -248,7 +248,7 @@ export function SellPage() {
           </button>
         </div>
       ) : (
-        <div className="space-y-4 pb-4">
+        <div className="space-y-4 pb-8">
           <input
             ref={searchRef}
             type="search"

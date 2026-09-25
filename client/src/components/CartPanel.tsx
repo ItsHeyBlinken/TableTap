@@ -65,7 +65,7 @@ export function CartPanel({
   }
 
   return (
-    <div className="sticky bottom-0 z-10 -mx-4 border-t border-slate-200 bg-white/95 px-4 pb-4 pt-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:shadow-md">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <p className="mb-2 text-sm font-semibold text-slate-800">Cart ({lines.length})</p>
 
       <ul className="mb-3 max-h-[min(35vh,240px)] space-y-2 overflow-y-auto">
