@@ -1,3 +1,5 @@
+import type { HTMLAttributes } from "react";
+
 interface FormSelectProps {
   label: string;
   value: string;
@@ -53,6 +55,11 @@ interface FormDatalistInputProps {
   listId: string;
   className?: string;
   hideLabel?: boolean;
+  /** Hint mobile keyboards (e.g. "numeric" for quantity). */
+  inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
+  min?: number | string;
+  max?: number | string;
+  step?: number | string;
 }
 
 const inputClass =
@@ -68,6 +75,10 @@ export function FormDatalistInput({
   listId,
   className = inputClass,
   hideLabel,
+  inputMode,
+  min,
+  max,
+  step,
 }: FormDatalistInputProps) {
   return (
     <div>
@@ -81,6 +92,10 @@ export function FormDatalistInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={className}
+        inputMode={inputMode}
+        min={min}
+        max={max}
+        step={step}
       />
       <datalist id={listId}>
         {options.map((opt) => (

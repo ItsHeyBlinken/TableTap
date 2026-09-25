@@ -165,12 +165,15 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
           <p className="mt-1 text-xs text-slate-500">What you plan to sell for (not profit until sold).</p>
         </div>
 
-        <FormSelect
+        <FormDatalistInput
           label="Quantity"
           value={form.quantity}
           onChange={(v) => update("quantity", v)}
           options={STOCK_QUANTITIES}
-          placeholder="1"
+          placeholder="Pick or type count"
+          listId="stock-quantities"
+          inputMode="numeric"
+          min={1}
         />
       </div>
 

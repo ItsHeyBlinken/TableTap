@@ -1,5 +1,10 @@
 # Progress Log
 
+## 2026-09-25
+
+- **Sales events (clarified for demos):** Events are per-user; same name/date across users is allowed — no cross-user uniqueness
+- **Stock quantity:** Expanded `STOCK_QUANTITIES` presets (1–10, 15, 20, 25, 50, 75, 100); Quantity field is now a datalist (pick preset or type any count, e.g. 72)
+
 ## 2026-08-04
 
 - **Onboarding:** public `/guide` (features, show-day workflow, key concepts)

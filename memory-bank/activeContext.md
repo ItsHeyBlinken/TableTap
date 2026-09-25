@@ -1,6 +1,6 @@
 # Active Context
 
-**Last updated:** 2026-08-04
+**Last updated:** 2026-09-25
 
 ## Live testing (Coolify)
 
@@ -80,7 +80,7 @@ Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 | Trades API | `server/src/services/tradeService.ts`, `server/src/routes/trades.ts` |
 | Trade UI | `client/src/components/TradeTab.tsx` |
 | Mobile nav | `client/src/components/MobileNav.tsx`, `AppLayout.tsx` |
-| Stock options | `client/src/lib/stockOptions.ts`, `FormSelect.tsx` |
+| Stock options | `client/src/lib/stockOptions.ts`, `FormSelect.tsx` / `FormDatalistInput` (quantity = datalist presets + free type) |
 | Dev notes | `dev.local.md` (gitignored), `resume.md` |
 
 ## Revisit later — CSV image ingest (S3)

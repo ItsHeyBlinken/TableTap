@@ -56,7 +56,25 @@ export const CARD_GRADES = [
   "AUTH",
 ] as const;
 
-export const STOCK_QUANTITIES = ["1", "2", "3", "4", "5", "10"] as const;
+/** Presets for quantity datalist; vendors can still type any count (e.g. 72). */
+export const STOCK_QUANTITIES = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "15",
+  "20",
+  "25",
+  "50",
+  "75",
+  "100",
+] as const;
 
 const YEAR_START = 1980;
 
