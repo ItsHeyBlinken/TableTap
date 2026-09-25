@@ -41,6 +41,7 @@
 | `POST /api/cards/import` | Bulk CSV stock import (multipart `file`) |
 | `POST /api/trades` | Trade out + stock in (one transaction) |
 | `POST /api/sales/quick` | Walk-up sale |
-| `PATCH /api/cards/:id/sell` | Sell from stock |
+| `POST /api/sales/checkout` | Atomic multi-line stock checkout (cart or Sell now); optional partial qty per line |
+| `PATCH /api/cards/:id/sell` | Legacy single-card sell from stock (still available) |
 | `GET /api/dashboard` | Vendor metrics (revenue includes `cash_adjustment`) |
 | `GET /api/health` | Deploy smoke check |

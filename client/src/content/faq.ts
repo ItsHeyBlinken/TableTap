@@ -138,6 +138,24 @@ export const VENDOR_FAQ: FaqItem[] = [
     ],
   },
   {
+    id: "multi-checkout",
+    question: "Can I check out several cards at once or sell part of a quantity?",
+    blocks: [
+      {
+        type: "p",
+        text: `On Sell → From stock, add lines to your cart and tap Complete sale — ${APP_DISPLAY_NAME} records the whole cart as one transaction (one grouped receipt on Sales). Sell now checks out a single line without building a cart.`,
+      },
+      {
+        type: "p",
+        text: "If a stock item has quantity greater than 1, you can sell only part of it; the remainder stays in active stock.",
+      },
+      {
+        type: "p",
+        text: `${APP_DISPLAY_NAME} does not process payment. Record the sale after you’ve been paid (cash, Venmo, etc.) like any other sale.`,
+      },
+    ],
+  },
+  {
     id: "csv",
     question: "Can I import inventory from a spreadsheet?",
     blocks: [

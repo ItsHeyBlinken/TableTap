@@ -84,6 +84,16 @@ Most vendors pre-load hot inventory or import a CSV; quick sale covers walk-up s
 
 ---
 
+## Can I check out several cards at once or sell part of a quantity?
+
+On **Sell → From stock**, add lines to your cart and tap **Complete sale** — TableTap records the whole cart as **one transaction** (one grouped receipt on Sales). **Sell now** checks out a single line without building a cart.
+
+If a stock item has quantity greater than 1, you can sell only part of it; the remainder stays in **active stock**.
+
+TableTap **does not** process payment. Record the sale after you’ve been paid (cash, Venmo, etc.) like any other sale.
+
+---
+
 ## Can I import inventory from a spreadsheet?
 
 **Yes.** Use **Stock → Import CSV** with the provided template.

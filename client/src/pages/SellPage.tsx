@@ -1,28 +1,69 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { apiGet } from "../lib/api";
+import { apiGet, apiPost } from "../lib/api";
+import {
+  type CartLine,
+  cartTotal,
+  clearCart,
+  loadCart,
+  mergeLine,
+  saveCart,
+} from "../lib/cartStorage";
 import { cardLabel, formatCurrency, cardAskingPrice } from "../lib/format";
-import type { Card } from "../types";
-import { SellForm } from "../components/SellForm";
+import { getLastEventId } from "../lib/posStorage";
+import type { Card, CheckoutResult } from "../types";
+import { CartPanel } from "../components/CartPanel";
 import { QuickSaleForm } from "../components/QuickSaleForm";
+import { StockSellPanel } from "../components/StockSellPanel";
 import { TradeTab } from "../components/TradeTab";
 
 type Tab = "stock" | "quick" | "trade";
 
+function clampCartToStock(lines: CartLine[], cards: Card[]): CartLine[] {
+  const byId = new Map(cards.map((c) => [c.id, c]));
+  return lines
+    .map((line) => {
+      const card = byId.get(line.cardId);
+      if (!card || card.quantity < 1) return null;
+      const maxQuantity = card.quantity;
+      const quantity = Math.min(line.quantity, maxQuantity);
+      return {
+        ...line,
+        label: cardLabel(card),
+        quantity,
+        maxQuantity,
+        purchasePrice: Number(card.purchase_price ?? 0),
+      };
+    })
+    .filter((line): line is CartLine => line != null);
+}
+
 export function SellPage() {
   const [searchParams] = useSearchParams();
   const preselectId = searchParams.get("card") ?? "";
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const [tab, setTab] = useState<Tab>(preselectId ? "stock" : "stock");
   const [stock, setStock] = useState<Card[]>([]);
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState<{ profit: number; label: string } | null>(null);
+  const [cart, setCart] = useState<CartLine[]>(() => loadCart());
+  const [eventId, setEventId] = useState(() => getLastEventId());
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
+  const [toast, setToast] = useState<{ profit: number; total: number; label: string } | null>(
+    null
+  );
+
+  useEffect(() => {
+    saveCart(cart);
+  }, [cart]);
 
   const loadStock = useCallback(() => {
     return apiGet<{ cards: Card[] }>("/api/cards?status=active&limit=200").then((data) => {
       setStock(data.cards);
+      setCart((prev) => clampCartToStock(prev, data.cards));
       return data.cards;
     });
   }, []);
@@ -52,28 +93,81 @@ export function SellPage() {
   const selected = stock.find((c) => c.id === selectedId);
 
   const handleSaleSuccess = (profit: number, label: string) => {
-    setToast({ profit, label });
+    setToast({ profit, total: 0, label });
     setTimeout(() => setToast(null), 2500);
     loadStock().then((cards) => {
-      setStock(cards);
       if (selectedId && !cards.find((c) => c.id === selectedId)) {
         setSelectedId(cards[0]?.id ?? "");
       }
     });
   };
 
+  const checkoutLines = async (lines: CartLine[], successLabel: string) => {
+    setCheckoutError("");
+    setCheckoutLoading(true);
+    try {
+      const result = await apiPost<CheckoutResult>("/api/sales/checkout", {
+        event_id: eventId || null,
+        sold_date: new Date().toISOString().slice(0, 10),
+        lines: lines.map((l) => ({
+          card_id: l.cardId,
+          quantity: l.quantity,
+          unit_price: l.unitPrice,
+        })),
+      });
+      clearCart();
+      setCart([]);
+      setToast({ profit: result.profit, total: result.total, label: successLabel });
+      setTimeout(() => setToast(null), 2500);
+      searchRef.current?.focus();
+      try {
+        const cards = await loadStock();
+        if (selectedId && !cards.find((c) => c.id === selectedId)) {
+          setSelectedId(cards[0]?.id ?? "");
+        }
+      } catch {
+        // Sale already succeeded — stock list refresh is best-effort
+      }
+    } catch (err) {
+      setCheckoutError(err instanceof Error ? err.message : "Checkout failed");
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
+
+  const addToCart = (line: CartLine) => {
+    setCart((prev) => mergeLine(prev, line));
+    searchRef.current?.focus();
+  };
+
+  const sellNow = (line: CartLine) => {
+    void checkoutLines([line], line.label);
+  };
+
+  const completeSale = () => {
+    if (cart.length === 0) return;
+    const label =
+      cart.length === 1 ? cart[0].label : `${cart.length} items · ${formatCurrency(cartTotal(cart))}`;
+    void checkoutLines(cart, label);
+  };
+
   return (
     <div className="mx-auto w-full max-w-lg">
       <div className="mb-4">
         <h1 className="text-2xl font-bold text-slate-900">Record sale</h1>
-        <p className="text-sm text-slate-600">Built for busy tables — search, price, done.</p>
+        <p className="text-sm text-slate-600">
+          Add lines, then complete — or Sell now for one card.
+        </p>
       </div>
 
       {toast && (
         <div className="mb-4 rounded-xl border border-green-300 bg-green-100 px-4 py-3 text-center">
           <p className="font-semibold text-green-900">Sale recorded</p>
           <p className="text-sm text-green-800">
-            {toast.label} · Profit {formatCurrency(toast.profit)}
+            {toast.label}
+            {toast.total > 0 && <> · Total {formatCurrency(toast.total)}</>}
+            {" · "}
+            Profit {formatCurrency(toast.profit)}
           </p>
         </div>
       )}
@@ -154,8 +248,9 @@ export function SellPage() {
           </button>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 pb-4">
           <input
+            ref={searchRef}
             type="search"
             placeholder="Search player, brand, team…"
             value={search}
@@ -192,17 +287,34 @@ export function SellPage() {
             )}
           </ul>
 
+          {checkoutError && (
+            <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {checkoutError}
+            </p>
+          )}
+
           {selected && (
             <div className="rounded-2xl border-2 border-green-200 bg-white p-4 shadow-sm">
-              <SellForm
+              <StockSellPanel
                 key={selected.id}
                 card={selected}
-                onSuccess={(_card, profit) =>
-                  handleSaleSuccess(profit, cardLabel(selected))
-                }
+                canSellNow={cart.length === 0}
+                disabled={checkoutLoading}
+                onAdd={addToCart}
+                onSellNow={sellNow}
               />
             </div>
           )}
+
+          <CartPanel
+            lines={cart}
+            onChangeLines={setCart}
+            eventId={eventId}
+            onEventChange={setEventId}
+            onCheckout={completeSale}
+            loading={checkoutLoading}
+            total={cartTotal(cart)}
+          />
         </div>
       )}
     </div>

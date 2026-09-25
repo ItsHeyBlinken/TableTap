@@ -47,6 +47,23 @@ export const importCardRowSchema = cardBaseSchema.extend({
   image_url: imageUrlSchema,
 });
 
+export const checkoutSchema = z.object({
+  event_id: z.string().uuid().optional().nullable(),
+  sold_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be YYYY-MM-DD")
+    .optional(),
+  lines: z
+    .array(
+      z.object({
+        card_id: z.string().uuid(),
+        quantity: z.coerce.number().int().positive(),
+        unit_price: z.coerce.number().nonnegative(),
+      })
+    )
+    .min(1, "At least one line required"),
+});
+
 export const sellCardSchema = z.object({
   sold_price: z.coerce.number().nonnegative(),
   sold_date: z

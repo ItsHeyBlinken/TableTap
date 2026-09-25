@@ -35,12 +35,28 @@ export interface Card {
   image_url: string | null;
   event_id: string | null;
   event_name?: string | null;
+  transaction_id?: string | null;
   trade_group_id?: string | null;
   sale_type?: "cash" | "trade";
   cash_adjustment?: string | null;
   created_at: string;
   profit?: number | null;
   cost_basis?: number | null;
+}
+
+export interface SalesTransaction {
+  id: string;
+  user_id: string;
+  event_id: string | null;
+  sold_date: string;
+  created_at: string;
+}
+
+export interface CheckoutResult {
+  transaction: SalesTransaction & { event_name?: string | null };
+  lines: Card[];
+  total: number;
+  profit: number;
 }
 
 export interface TradeResult {

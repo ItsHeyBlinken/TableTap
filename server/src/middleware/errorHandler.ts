@@ -19,6 +19,17 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
   }
   if (
     err instanceof Error &&
+    (err.message === "Duplicate card_id in checkout lines" ||
+      err.message.startsWith("Insufficient quantity") ||
+      err.message.startsWith("Card not found or already sold") ||
+      err.message.startsWith("Could not sell card") ||
+      err.message.startsWith("Could not reduce quantity"))
+  ) {
+    res.status(400).json({ error: err.message });
+    return;
+  }
+  if (
+    err instanceof Error &&
     (err.message === "Event not found" ||
       err.message === "Outgoing card not found or already sold" ||
       err.message.startsWith("Could not complete trade"))

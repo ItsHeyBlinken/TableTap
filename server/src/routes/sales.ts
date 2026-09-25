@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { quickSaleSchema, todayDateString } from "../utils/validation.js";
+import { checkoutSchema, quickSaleSchema, todayDateString } from "../utils/validation.js";
 import * as cardService from "../services/cardService.js";
+import * as checkoutService from "../services/checkoutService.js";
 import { requireAuth, type AuthRequest } from "../middleware/auth.js";
 
 const router = Router();
@@ -15,6 +16,19 @@ router.post("/quick", async (req: AuthRequest, res, next) => {
       sold_date: body.sold_date ?? todayDateString(),
     });
     res.status(201).json({ card });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/checkout", async (req: AuthRequest, res, next) => {
+  try {
+    const body = checkoutSchema.parse(req.body);
+    const result = await checkoutService.checkout(req.user!.userId, {
+      ...body,
+      sold_date: body.sold_date ?? todayDateString(),
+    });
+    res.status(201).json(result);
   } catch (err) {
     next(err);
   }

@@ -2,8 +2,17 @@
 
 ## 2026-09-25
 
+- **POS checkout Task 8 (SDD):** Memory bank + FAQ — checkout patterns, `POST /api/sales/checkout` in techContext, multi-item / partial qty vendor Q; report `.superpowers/sdd/task-8-report.md`
+- **POS checkout feature (SDD complete):** Tasks 1–7 — migration `004`, checkout API/service, Sell cart + sticky session, Sales receipt grouping; user applies `004` in pgAdmin; Quick sale + Trade tabs unchanged; no payment processing
+- **POS checkout Task 7 (SDD):** Sales page groups sold cards by `transaction_id` (`groupSales.ts`, expandable receipts on mobile/desktop); pagination remains per card row; client build PASS; report `.superpowers/sdd/task-7-report.md`
+- **POS checkout Task 6 (SDD):** Wired `SellPage` stock tab — cart persistence, clamp on reload, `StockSellPanel` + `CartPanel`, checkout API; client build PASS; report `.superpowers/sdd/task-6-report.md`
+- **POS checkout Task 5 (SDD):** `cartStorage.ts`, `StockSellPanel.tsx`, `CartPanel.tsx` (session cart + speed UX); client build PASS; report `.superpowers/sdd/task-5-report.md`; SellPage wiring deferred to Task 6
+- **POS checkout Task 4 (SDD):** `POST /api/sales/checkout` + checkout domain errors → 400 in `errorHandler`; report `.superpowers/sdd/task-4-report.md`
+- **POS checkout Task 3 (SDD):** `checkoutService.checkout()` — atomic multi-line checkout, partial qty split; report `.superpowers/sdd/task-3-report.md`
+- **POS checkout Task 2 (SDD):** Server/client `SalesTransaction`, `CheckoutResult`, `Card.transaction_id`; `checkoutSchema` in `server/src/utils/validation.ts`; report `.superpowers/sdd/task-2-report.md`
 - **Sales events (clarified for demos):** Events are per-user; same name/date across users is allowed — no cross-user uniqueness
 - **Stock quantity:** Expanded `STOCK_QUANTITIES` presets (1–10, 15, 20, 25, 50, 75, 100); Quantity field is now a datalist (pick preset or type any count, e.g. 72)
+- **POS checkout design (approved):** Multi-item cart + **Sell now** for one-card speed; partial qty; sales group+expand — spec `docs/superpowers/specs/2026-09-25-pos-checkout-design.md`, plan `docs/superpowers/plans/2026-09-25-pos-checkout.md` (awaiting execution choice)
 
 ## 2026-08-04
 

@@ -2,6 +2,10 @@
 
 **Last updated:** 2026-09-25
 
+## Recently shipped
+
+- **POS multi-item checkout (2026-09-25)** — stock tab cart, **Sell now** (single line), **Complete sale** (multi-line), `POST /api/sales/checkout`; Sales groups by receipt (`transaction_id`). Spec: [`docs/superpowers/specs/2026-09-25-pos-checkout-design.md`](../docs/superpowers/specs/2026-09-25-pos-checkout-design.md). **Requires migration `004`** in pgAdmin (local + Coolify) before checkout works in that environment.
+
 ## Live testing (Coolify)
 
 | | |
@@ -44,8 +48,9 @@ Run in order if not already applied (local **and** Coolify Postgres):
 1. `server/migrations/001_init.sql`
 2. `server/migrations/002_sales_events.sql`
 3. `server/migrations/003_trades.sql` — required for trades, dashboard revenue, cash sells
+4. `server/migrations/004_sales_transactions.sql` — POS checkout (`sales_transactions`, `cards.transaction_id`)
 
-Schema errors like `column c.cash_adjustment does not exist` → run `003`.
+Schema errors like `column c.cash_adjustment does not exist` → run `003`. Checkout API errors / missing `transaction_id` → run `004`.
 
 ## App routes
 
@@ -56,8 +61,8 @@ Schema errors like `column c.cash_adjustment does not exist` → run `003`.
 **Logged in:**
 
 - `/dashboard` — today’s profit, vendor KPIs, profit by event
-- `/sell` — **From stock** | **Quick sale** | **Trade**
-- `/sales` — sold history (cards on mobile)
+- `/sell` — **From stock** (cart + Sell now / Complete sale) | **Quick sale** | **Trade**
+- `/sales` — sold history; multi-line checkouts grouped as expandable receipts (pagination still per card row)
 - `/cards` — stock on hand
 - `/cards/import` — bulk CSV stock import
 - `/events` — sales events
@@ -78,6 +83,9 @@ Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 | CSV import UI | `client/src/pages/StockImportPage.tsx`, template in `client/public/stock-import-template.csv` |
 | Asking price (`estimated_value`) | `CardForm.tsx`, `format.ts` (`cardAskingPrice`), stock list/detail/sell pre-fill |
 | Trades API | `server/src/services/tradeService.ts`, `server/src/routes/trades.ts` |
+| POS checkout | `server/migrations/004_sales_transactions.sql`, `checkoutService.ts`, `POST /api/sales/checkout` |
+| Sell cart UI | `cartStorage.ts`, `StockSellPanel.tsx`, `CartPanel.tsx`, `SellPage.tsx` |
+| Sales receipts UI | `client/src/lib/groupSales.ts` (group by `transaction_id`) |
 | Trade UI | `client/src/components/TradeTab.tsx` |
 | Mobile nav | `client/src/components/MobileNav.tsx`, `AppLayout.tsx` |
 | Stock options | `client/src/lib/stockOptions.ts`, `FormSelect.tsx` / `FormDatalistInput` (quantity = datalist presets + free type) |
