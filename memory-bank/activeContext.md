@@ -2,6 +2,10 @@
 
 **Last updated:** 2026-10-16
 
+## Live on the test site (2026-10-16)
+
+Phase 0 and Phase 1 are committed and deployed at https://tabletap.bytesbyblinken.com. Sales → Tax export shows profit and loss. Checked **This year** for `testuser1@test.com`: profit **$69.00** on 5 items, dates as `MM-DD-YYYY`.
+
 ## In progress — tax reporting Phase 1
 
 Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md). Phase 0 is on `main` and checked on the live site (trade cash sign, local sale dates).
