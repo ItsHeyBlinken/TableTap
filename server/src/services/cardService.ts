@@ -4,7 +4,7 @@ import { mapCard } from "../utils/cardMapper.js";
 import { getEventById } from "./eventService.js";
 import type { z } from "zod";
 import type { cardBaseSchema, cardsQuerySchema, quickSaleSchema } from "../utils/validation.js";
-import { todayDateString } from "../utils/validation.js";
+import { resolveSaleDate } from "../utils/validation.js";
 
 type CardInput = z.infer<typeof cardBaseSchema>;
 type CardsQuery = z.infer<typeof cardsQuerySchema>;
@@ -198,7 +198,10 @@ export async function quickSale(userId: string, input: QuickSaleInput): Promise<
     if (!event) throw new Error("Event not found");
   }
 
-  const soldDate = input.sold_date ?? todayDateString();
+  const soldDate = resolveSaleDate({
+    sold_date: input.sold_date,
+    time_zone: input.time_zone,
+  });
   const year = input.year ?? new Date().getFullYear();
 
   const result = await pool.query<Card>(

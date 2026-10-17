@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { apiPost } from "../lib/api";
-import { cardLabel, formatCurrency, previewProfit } from "../lib/format";
+import { cardLabel, formatCurrency, localDateString, previewProfit } from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
 import type { Card, TradeResult } from "../types";
 import { EventSelect } from "./EventSelect";
@@ -55,10 +55,11 @@ export function TradeTab({
 
   const outCost = selected?.cost_basis ?? 0;
   const outVal = Number(outgoingValue) || 0;
+  const cash = Number(cashAdjustment) || 0;
   const profitPreview = useMemo(() => {
     if (!outgoingValue || Number.isNaN(outVal)) return null;
-    return previewProfit(outVal, outCost);
-  }, [outgoingValue, outVal, outCost]);
+    return previewProfit(outVal, outCost) + cash;
+  }, [outgoingValue, outVal, outCost, cash]);
 
   const handleEventChange = (id: string) => {
     setEventId(id);
@@ -95,6 +96,7 @@ export function TradeTab({
         },
         cash_adjustment: cashAdjustment ? Number(cashAdjustment) : 0,
         event_id: eventId || null,
+        trade_date: localDateString(),
       });
       onSuccess(result);
       resetIncoming();
@@ -234,6 +236,7 @@ export function TradeTab({
           </div>
 
           <div>
+            {/* Positive cash_adjustment = cash the vendor received. Negative = cash the vendor paid. */}
             <label className="mb-1 block text-sm font-medium">Cash adjustment (optional)</label>
             <input
               type="number"

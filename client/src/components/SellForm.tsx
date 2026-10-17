@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { apiPatch } from "../lib/api";
-import { cardAskingPrice, cardLabel, formatCurrency, previewProfit } from "../lib/format";
+import { cardAskingPrice, cardLabel, formatCurrency, localDateString, previewProfit } from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
 import type { Card } from "../types";
 import { EventSelect } from "./EventSelect";
@@ -46,7 +46,7 @@ export function SellForm({ card, onSuccess }: SellFormProps) {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const today = new Date().toISOString().slice(0, 10);
+    const today = localDateString();
     try {
       const data = await apiPatch<{ card: Card }>(`/api/cards/${card.id}/sell`, {
         sold_price: Number(soldPrice),

@@ -43,5 +43,5 @@
 | `POST /api/sales/quick` | Walk-up sale |
 | `POST /api/sales/checkout` | Atomic multi-line stock checkout (cart or Sell now); optional partial qty per line |
 | `PATCH /api/cards/:id/sell` | Legacy single-card sell from stock (still available) |
-| `GET /api/dashboard` | Vendor metrics (revenue includes `cash_adjustment`) |
+| `GET /api/dashboard?date=YYYY-MM-DD` | Vendor metrics. `date` is the vendor’s local today. Profit includes trade cash once per trade group. |
 | `GET /api/health` | Deploy smoke check |

@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { apiPost } from "../lib/api";
-import { formatCurrency, previewProfit } from "../lib/format";
+import { formatCurrency, localDateString, previewProfit } from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
 import type { Card } from "../types";
 import { EventSelect } from "./EventSelect";
@@ -46,7 +46,7 @@ export function QuickSaleForm({ onSuccess }: QuickSaleFormProps) {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const today = new Date().toISOString().slice(0, 10);
+    const today = localDateString();
     try {
       const data = await apiPost<{ card: Card }>("/api/sales/quick", {
         player_name: playerName.trim(),

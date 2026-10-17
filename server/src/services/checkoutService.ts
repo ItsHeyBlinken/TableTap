@@ -2,7 +2,7 @@ import { pool } from "../db/pool.js";
 import type { Card, CheckoutResult, SalesTransaction } from "../types/index.js";
 import { getEventById } from "./eventService.js";
 import { mapCard } from "../utils/cardMapper.js";
-import { todayDateString, computeProfit } from "../utils/validation.js";
+import { resolveSaleDate, computeProfit, saleAmountFromUnit } from "../utils/validation.js";
 import type { z } from "zod";
 import type { checkoutSchema } from "../utils/validation.js";
 
@@ -23,7 +23,10 @@ function transactionSoldDate(value: unknown, fallback: string): string {
 }
 
 export async function checkout(userId: string, input: CheckoutInput): Promise<CheckoutResult> {
-  const soldDate = input.sold_date ?? todayDateString();
+  const soldDate = resolveSaleDate({
+    sold_date: input.sold_date,
+    time_zone: input.time_zone,
+  });
   const eventId = input.event_id ?? null;
 
   const ids = input.lines.map((l) => l.card_id);
@@ -66,7 +69,7 @@ export async function checkout(userId: string, input: CheckoutInput): Promise<Ch
         );
       }
 
-      const lineTotal = Number(line.unit_price) * line.quantity;
+      const lineTotal = saleAmountFromUnit(Number(line.unit_price), line.quantity);
 
       if (line.quantity === card.quantity) {
         const upd = await client.query<{ id: string }>(

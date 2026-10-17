@@ -23,7 +23,9 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
       err.message.startsWith("Insufficient quantity") ||
       err.message.startsWith("Card not found or already sold") ||
       err.message.startsWith("Could not sell card") ||
-      err.message.startsWith("Could not reduce quantity"))
+      err.message.startsWith("Could not reduce quantity") ||
+      err.message === "Sale date or time zone is required" ||
+      err.message.startsWith("Invalid time zone"))
   ) {
     res.status(400).json({ error: err.message });
     return;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { recordTradeSchema, todayDateString } from "../utils/validation.js";
+import { recordTradeSchema } from "../utils/validation.js";
 import { recordTrade } from "../services/tradeService.js";
 import { requireAuth, type AuthRequest } from "../middleware/auth.js";
 
@@ -9,10 +9,7 @@ router.use(requireAuth);
 router.post("/", async (req: AuthRequest, res, next) => {
   try {
     const body = recordTradeSchema.parse(req.body);
-    const result = await recordTrade(req.user!.userId, {
-      ...body,
-      trade_date: body.trade_date ?? todayDateString(),
-    });
+    const result = await recordTrade(req.user!.userId, body);
     res.status(201).json(result);
   } catch (err) {
     next(err);

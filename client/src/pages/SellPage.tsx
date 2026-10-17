@@ -9,7 +9,7 @@ import {
   mergeLine,
   saveCart,
 } from "../lib/cartStorage";
-import { cardLabel, formatCurrency, cardAskingPrice } from "../lib/format";
+import { cardAskingPrice, cardLabel, formatCurrency, localDateString } from "../lib/format";
 import { getLastEventId } from "../lib/posStorage";
 import type { Card, CheckoutResult } from "../types";
 import { CartPanel } from "../components/CartPanel";
@@ -108,7 +108,7 @@ export function SellPage() {
     try {
       const result = await apiPost<CheckoutResult>("/api/sales/checkout", {
         event_id: eventId || null,
-        sold_date: new Date().toISOString().slice(0, 10),
+        sold_date: localDateString(),
         lines: lines.map((l) => ({
           card_id: l.cardId,
           quantity: l.quantity,

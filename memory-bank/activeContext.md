@@ -1,6 +1,16 @@
 # Active Context
 
-**Last updated:** 2026-09-25
+**Last updated:** 2026-10-16
+
+## In progress — tax reporting Phase 0
+
+Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md). Phase 1 and Phase 2 are not started.
+
+- Profit now includes trade cash (same sign as revenue: positive = cash received). Dashboard sums that cash once per trade group.
+- Sale dates come from the vendor’s local calendar day. Server fallback is an IANA time zone, not UTC. Dashboard “today” uses `?date=`.
+- Price meaning is unchanged: `sold_price` is the sale amount; `purchase_price` is what the vendor paid per item.
+- Tests: `npm test` in `server/` (`src/utils/phase0.test.ts`).
+- The Phase 1 warning date is still unset. Fill it in when this phase is deployed.
 
 ## Recently shipped
 

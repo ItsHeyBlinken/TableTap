@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiGet } from "../lib/api";
-import { cardLabel, formatCurrency, formatDate } from "../lib/format";
+import { cardLabel, formatCurrency, formatDate, localDateString } from "../lib/format";
 import type { VendorDashboard } from "../types";
 import { GettingStartedChecklist } from "../components/GettingStartedChecklist";
 import { StatCard } from "../components/StatCard";
@@ -11,7 +11,7 @@ export function DashboardPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    apiGet<VendorDashboard>("/api/dashboard")
+    apiGet<VendorDashboard>(`/api/dashboard?date=${localDateString()}`)
       .then(setStats)
       .catch((err) => setError(err instanceof Error ? err.message : "Failed to load dashboard"));
   }, []);

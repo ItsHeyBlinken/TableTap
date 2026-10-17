@@ -3,10 +3,9 @@ import { pool } from "../db/pool.js";
 import type { Card, TradeResult } from "../types/index.js";
 import { getEventById } from "./eventService.js";
 import { getCardById } from "./cardService.js";
-import { computeCostBasis } from "../utils/validation.js";
+import { computeCostBasis, resolveSaleDate } from "../utils/validation.js";
 import type { z } from "zod";
 import type { recordTradeSchema } from "../utils/validation.js";
-import { todayDateString } from "../utils/validation.js";
 
 type RecordTradeInput = z.infer<typeof recordTradeSchema>;
 
@@ -22,11 +21,14 @@ export async function recordTrade(userId: string, input: RecordTradeInput): Prom
   }
 
   const tradeGroupId = randomUUID();
-  const tradeDate = input.trade_date ?? todayDateString();
+  const tradeDate = resolveSaleDate({
+    sold_date: input.trade_date,
+    time_zone: input.time_zone,
+  });
   const cashAdjustment = input.cash_adjustment ?? 0;
   const incomingYear = input.incoming.year ?? new Date().getFullYear();
   const outCost = computeCostBasis(outgoing);
-  const outgoingProfit = input.outgoing_trade_value - outCost;
+  const outgoingProfit = input.outgoing_trade_value - outCost + cashAdjustment;
 
   const client = await pool.connect();
   try {

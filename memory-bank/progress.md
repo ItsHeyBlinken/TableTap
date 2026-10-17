@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-10-16
+
+- **Tax reporting Phase 0 (not committed):** Trade cash is included in profit with the same sign as revenue (positive = vendor received cash). Dashboard totals count each trade group’s cash once.
+- Sale dates use the vendor’s local `YYYY-MM-DD` from quick sale, sell, checkout, trade, and the dashboard. Server no longer defaults those dates with UTC `toISOString()` or `CURRENT_DATE`.
+- Confirmed existing price meaning and left it in place: `sold_price` is the sale amount (checkout stores unit × quantity); `purchase_price` is the per-item cost.
+- Added `server` unit tests (`npm test`) for profit, once-per-group cash, quantity, and local dates. No migration.
+- Phase 1 tax view / CSV and Phase 2 show tax fields are not started. Warning-line ship date is unset until this phase is deployed.
+
 ## 2026-09-25
 
 - **Cart overlay fix:** Removed sticky cart; sits below sell form so Qty/unit price stay visible — user confirmed working

@@ -5,7 +5,7 @@ import {
   createCardSchema,
   updateCardSchema,
   sellCardSchema,
-  todayDateString,
+  resolveSaleDate,
 } from "../utils/validation.js";
 import * as cardService from "../services/cardService.js";
 import {
@@ -122,7 +122,7 @@ router.patch("/:id/sell", async (req: AuthRequest, res, next) => {
       req.user!.userId,
       paramId(req.params.id),
       body.sold_price,
-      body.sold_date ?? todayDateString(),
+      resolveSaleDate({ sold_date: body.sold_date, time_zone: body.time_zone }),
       body.event_id ?? null
     );
     if (!card) {

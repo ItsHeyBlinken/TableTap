@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkoutSchema, quickSaleSchema, todayDateString } from "../utils/validation.js";
+import { checkoutSchema, quickSaleSchema } from "../utils/validation.js";
 import * as cardService from "../services/cardService.js";
 import * as checkoutService from "../services/checkoutService.js";
 import { requireAuth, type AuthRequest } from "../middleware/auth.js";
@@ -11,10 +11,7 @@ router.use(requireAuth);
 router.post("/quick", async (req: AuthRequest, res, next) => {
   try {
     const body = quickSaleSchema.parse(req.body);
-    const card = await cardService.quickSale(req.user!.userId, {
-      ...body,
-      sold_date: body.sold_date ?? todayDateString(),
-    });
+    const card = await cardService.quickSale(req.user!.userId, body);
     res.status(201).json({ card });
   } catch (err) {
     next(err);
@@ -24,10 +21,7 @@ router.post("/quick", async (req: AuthRequest, res, next) => {
 router.post("/checkout", async (req: AuthRequest, res, next) => {
   try {
     const body = checkoutSchema.parse(req.body);
-    const result = await checkoutService.checkout(req.user!.userId, {
-      ...body,
-      sold_date: body.sold_date ?? todayDateString(),
-    });
+    const result = await checkoutService.checkout(req.user!.userId, body);
     res.status(201).json(result);
   } catch (err) {
     next(err);
