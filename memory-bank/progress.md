@@ -7,6 +7,7 @@
 - Warning uses the Phase 0 ship date **2026-10-16** when the range includes an earlier day.
 - Column guide: `docs/tax-export.md`. Server tests cover ranges, totals, once-per-group cash, quantity, the warning, and CSV escaping.
 - Displayed dates use `MM-DD-YYYY` (for example `10-16-2026`). Stored dates and API query values stay `YYYY-MM-DD`.
+- **Sales tax is out of scope.** Profit and loss is the report that matters. Each vendor handles sales tax differently, so no tax-rate fields or formula until Chris asks.
 
 ## 2026-10-16
 

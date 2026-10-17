@@ -4,7 +4,9 @@
 
 ## In progress — tax reporting Phase 1
 
-Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md). Phase 0 is on `main` and checked on the live site (trade cash sign, local sale dates). Phase 2 is not started.
+Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md). Phase 0 is on `main` and checked on the live site (trade cash sign, local sale dates).
+
+**Sales tax is out of scope (2026-10-16).** The report that matters now is profit and loss. Each vendor handles sales tax differently, including shows that collect it at the end and shows that expect the vendor to collect it. Do not add tax rates or a sales-tax formula until Chris asks.
 
 - Sales page **Tax export**: presets (default last year), show filter, totals, by-show breakdown, CSV download.
 - Report API: `GET /api/reports/sales` and `GET /api/reports/sales/export`. Same service feeds both. Scoped by the logged-in user.
