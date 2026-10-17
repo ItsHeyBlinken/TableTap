@@ -8,6 +8,7 @@ Primary question: *What did I sell today, and how much did I actually make?*
 - Stock supports selling (cost basis, search, sell from list)
 - Sales events group show/weekend/stream profit
 - Trades: card out + card in + optional cash adjustment
+- Profit and loss report on **Sales** (date range, by show, CSV). This is the income-tax view. Sales tax is not calculated; each vendor handles that outside the app.
 - **Mobile-first** at the table (bottom nav, large inputs, card lists not wide tables)
 
 Target environment: phone at card shows; laptop optional.

@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-10-16 (committed and live)
+
+- Phase 0 and Phase 1 are committed and deployed at https://tabletap.bytesbyblinken.com.
+- Live check, Sales → Tax export → **This year**, user `testuser1@test.com`: profit **$69.00**, 5 items, range **01-01-2026** to **10-16-2026**. Dates display as `MM-DD-YYYY`.
+- Confirmed scope: the report vendors need is profit and loss. Sales tax stays out of the app because each vendor handles it differently.
+
 ## 2026-10-16 (Phase 1)
 
 - **Tax export (not committed):** Sales page section with date presets (last year default), show filter, totals strip, by-show breakdown, and CSV download.

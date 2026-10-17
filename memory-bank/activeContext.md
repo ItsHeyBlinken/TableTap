@@ -2,24 +2,16 @@
 
 **Last updated:** 2026-10-16
 
-## Live on the test site (2026-10-16)
+## Current focus
 
-Phase 0 and Phase 1 are committed and deployed at https://tabletap.bytesbyblinken.com. Sales → Tax export shows profit and loss. Checked **This year** for `testuser1@test.com`: profit **$69.00** on 5 items, dates as `MM-DD-YYYY`.
+Profit and loss reporting is shipped. Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md).
 
-## In progress — tax reporting Phase 1
-
-Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md). Phase 0 is on `main` and checked on the live site (trade cash sign, local sale dates).
-
-**Sales tax is out of scope (2026-10-16).** The report that matters now is profit and loss. Each vendor handles sales tax differently, including shows that collect it at the end and shows that expect the vendor to collect it. Do not add tax rates or a sales-tax formula until Chris asks.
-
-- Sales page **Tax export**: presets (default last year), show filter, totals, by-show breakdown, CSV download.
-- Report API: `GET /api/reports/sales` and `GET /api/reports/sales/export`. Same service feeds both. Scoped by the logged-in user.
-- Phase 0 fix date for the warning line: **2026-10-16**.
-- Column guide: `docs/tax-export.md` and the in-page Column guide.
-- Tests: `npm test` in `server/`.
+**Sales tax is out of scope (2026-10-16).** Each vendor handles it differently. Some shows collect it at the end, and some expect the vendor to collect it. Do not add tax rates or a sales-tax formula until Chris asks.
 
 ## Recently shipped
 
+- **Profit and loss export (2026-10-16)** — committed and live at https://tabletap.bytesbyblinken.com. Sales → **Tax export**. Presets default to last year. Totals and the CSV match. Checked **This year** for `testuser1@test.com`: profit **$69.00** on 5 items. Dates display as `MM-DD-YYYY`. Column guide: `docs/tax-export.md`. No database migration.
+- **Sale dates and trade cash (2026-10-16)** — profit includes trade cash once per trade group (positive = cash received). Sale dates use the vendor’s local day. Evening-date warning starts **2026-10-16**.
 - **POS multi-item checkout (2026-09-25)** — stock tab cart, **Sell now** (single line), **Complete sale** (multi-line), `POST /api/sales/checkout`; Sales groups by receipt (`transaction_id`). Spec: [`docs/superpowers/specs/2026-09-25-pos-checkout-design.md`](../docs/superpowers/specs/2026-09-25-pos-checkout-design.md). **Requires migration `004`** in pgAdmin (local + Coolify) before checkout works in that environment.
 
 ## Where Chris is testing (2026-10-16)
@@ -82,7 +74,7 @@ Schema errors like `column c.cash_adjustment does not exist` → run `003`. Chec
 
 - `/dashboard` — today’s profit, vendor KPIs, profit by event
 - `/sell` — **From stock** (cart + Sell now / Complete sale) | **Quick sale** | **Trade**
-- `/sales` — sold history; multi-line checkouts grouped as expandable receipts (pagination still per card row)
+- `/sales` — profit and loss export (presets, show filter, CSV) plus sold history; multi-line checkouts grouped as expandable receipts (pagination still per card row)
 - `/cards` — stock on hand
 - `/cards/import` — bulk CSV stock import
 - `/events` — sales events
@@ -106,6 +98,8 @@ Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 | POS checkout | `server/migrations/004_sales_transactions.sql`, `checkoutService.ts`, `POST /api/sales/checkout` |
 | Sell cart UI | `cartStorage.ts`, `StockSellPanel.tsx`, `CartPanel.tsx`, `SellPage.tsx` |
 | Sales receipts UI | `client/src/lib/groupSales.ts` (group by `transaction_id`) |
+| Profit and loss report | `client/src/components/TaxReportPanel.tsx`, `server/src/services/taxReportService.ts`, `GET /api/reports/sales` and `/export`, `docs/tax-export.md` |
+| Displayed dates | `client/src/lib/format.ts` (`formatDate` → `MM-DD-YYYY`) |
 | Trade UI | `client/src/components/TradeTab.tsx` |
 | Mobile nav | `client/src/components/MobileNav.tsx`, `AppLayout.tsx` |
 | Stock options | `client/src/lib/stockOptions.ts`, `FormSelect.tsx` / `FormDatalistInput` (quantity = datalist presets + free type) |

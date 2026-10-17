@@ -6,6 +6,7 @@
 - DB: PostgreSQL via `pg`; migrations applied manually in pgAdmin (`server/migrations/*.sql`)
 - Storage: `StorageProvider` — local disk or S3 via env
 - User commits all git changes
+- Server tests: `npm test` in `server/` (`node:test` via `tsx`)
 
 ## Production (Coolify — single app)
 
@@ -33,6 +34,7 @@
 - Mobile layout: `MobileHeader` + `MobileBottomNav`; `main-with-mobile-nav` padding in `index.css`
 - POS helpers: `client/src/lib/posStorage.ts` (`showpos_last_event_id`)
 - Marketing: `PublicMarketingShell`, FAQ `content/faq.ts`, pricing `content/pricingOptions.ts`
+- Displayed dates: `formatDate` in `client/src/lib/format.ts` renders `MM-DD-YYYY`. API and database dates stay `YYYY-MM-DD`.
 
 ## API highlights
 
