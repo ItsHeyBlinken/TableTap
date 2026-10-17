@@ -70,6 +70,13 @@ function fromCents(cents: number): number {
   return cents / 100;
 }
 
+/** MM-DD-YYYY for display and the CSV. Storage and queries stay YYYY-MM-DD. */
+export function formatUsDate(iso: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!match) return iso;
+  return `${match[2]}-${match[3]}-${match[1]}`;
+}
+
 export function formatMoney(cents: number): string {
   const sign = cents < 0 ? "-" : "";
   const abs = Math.abs(cents);
@@ -168,7 +175,7 @@ function buildLines(rows: SoldLineInput[]): BuiltLine[] {
       costCents,
       profitCents,
       row: {
-        sold_date: row.sold_date ?? "",
+        sold_date: formatUsDate(row.sold_date ?? ""),
         show_name: showName,
         item_description: itemDescription(row),
         sale_type: isTrade ? "trade" : "sale",
@@ -244,5 +251,5 @@ export function taxReportToCsv(rows: TaxReportRow[]): string {
 }
 
 export function taxExportFilename(range: { from: string; to: string }): string {
-  return `tabletap-sales-${range.from}_to_${range.to}.csv`;
+  return `tabletap-sales-${formatUsDate(range.from)}_to_${formatUsDate(range.to)}.csv`;
 }

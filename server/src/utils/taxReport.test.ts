@@ -4,6 +4,7 @@ import { resolveTaxRange } from "./taxRange.js";
 import {
   buildTaxReport,
   csvCell,
+  taxExportFilename,
   taxReportToCsv,
   type SoldLineInput,
 } from "./taxReport.js";
@@ -107,6 +108,8 @@ describe("tax report totals", () => {
     assert.equal(report.totals.profit, 69);
     assert.equal(report.totals.itemCount, 5);
     assert.equal(report.warning, null);
+    assert.equal(report.rows[0]?.sold_date, "10-16-2026");
+    assert.equal(taxExportFilename(report), "tabletap-sales-10-16-2026_to_10-16-2026.csv");
 
     const sum = (column: "line_revenue" | "trade_cash" | "cost_basis" | "profit") =>
       report.rows.reduce((total, row) => total + cents(row[column]), 0);

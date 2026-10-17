@@ -10,7 +10,7 @@ Phase 0 sale-date fix: **October 16, 2026**. Sales entered before that date may 
 
 | Column | Meaning |
 |---|---|
-| `sold_date` | Sale date in the vendor’s local calendar, `YYYY-MM-DD`. Not the time the card was added to stock. |
+| `sold_date` | Sale date in the vendor’s local calendar, `MM-DD-YYYY` (for example `10-16-2026`). Not the time the card was added to stock. |
 | `show_name` | Show name, or `No event`. |
 | `item_description` | Player, year, and set. |
 | `sale_type` | `sale` for a cash sale, `trade` for a trade. No-cash trades are included and labeled `trade`. |
@@ -40,4 +40,4 @@ A trade that includes cash is not folded into “Trade value (no cash).” Its c
 
 A cell that starts with `=`, `+`, `-`, or `@` is prefixed with a single quote so the spreadsheet does not treat it as a formula. Negative amounts such as trade cash you paid are prefixed that way. Remove the quote if you need them as numbers.
 
-File name: `tabletap-sales-YYYY-MM-DD_to_YYYY-MM-DD.csv`. The file contains only the signed-in vendor’s sales.
+File name: `tabletap-sales-MM-DD-YYYY_to_MM-DD-YYYY.csv`. The file contains only the signed-in vendor’s sales.

@@ -6,6 +6,7 @@
 - `GET /api/reports/sales` and `GET /api/reports/sales/export` share one report. Trade cash is once per group. Gross sales are cash sales. No-cash trade value is separate. CSV escapes cells that start with `= + - @`.
 - Warning uses the Phase 0 ship date **2026-10-16** when the range includes an earlier day.
 - Column guide: `docs/tax-export.md`. Server tests cover ranges, totals, once-per-group cash, quantity, the warning, and CSV escaping.
+- Displayed dates use `MM-DD-YYYY` (for example `10-16-2026`). Stored dates and API query values stay `YYYY-MM-DD`.
 
 ## 2026-10-16
 

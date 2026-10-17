@@ -14,18 +14,12 @@ export function formatCurrency(value: number | string | null | undefined): strin
   }).format(num);
 }
 
-/** Handles YYYY-MM-DD or ISO timestamps from Postgres JSON. */
+/** Shows a stored YYYY-MM-DD date as MM-DD-YYYY. */
 export function formatDate(date: string | null | undefined): string {
   if (!date) return "—";
-  const dateOnly = String(date).slice(0, 10);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOnly)) return "—";
-  const parsed = new Date(`${dateOnly}T00:00:00`);
-  if (Number.isNaN(parsed.getTime())) return "—";
-  return parsed.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(date));
+  if (!match) return "—";
+  return `${match[2]}-${match[3]}-${match[1]}`;
 }
 
 export function cardLabel(card: { player_name: string; year: number; brand: string }): string {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { localDateString, formatCurrency } from "../lib/format";
+import { formatCurrency, formatDate, localDateString } from "../lib/format";
 import type { SalesEvent } from "../types";
 
 const PRESETS = [
@@ -100,7 +100,7 @@ export function TaxReportPanel({ events }: TaxReportPanelProps) {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `tabletap-sales-${report.from}_to_${report.to}.csv`;
+      link.download = `tabletap-sales-${formatDate(report.from)}_to_${formatDate(report.to)}.csv`;
       link.click();
       URL.revokeObjectURL(url);
     } catch (err) {
@@ -189,7 +189,7 @@ export function TaxReportPanel({ events }: TaxReportPanelProps) {
 
       {report && (
         <p className="mb-3 text-sm text-slate-600">
-          {report.from} to {report.to}
+          {formatDate(report.from)} to {formatDate(report.to)}
         </p>
       )}
       {error && <p className="mb-3 text-sm text-red-700">{error}</p>}
