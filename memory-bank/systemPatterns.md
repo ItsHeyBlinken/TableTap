@@ -6,6 +6,7 @@
 - Profit: `sold_price − purchase_price × quantity + cash_adjustment` (computed, not stored). Positive `cash_adjustment` = cash the vendor received. Negative = cash the vendor paid.
 - Dashboard totals add trade cash once per `trade_group_id`. A single card’s profit includes the cash stored on that row.
 - Sale dates: the client sends the vendor’s local `YYYY-MM-DD`. If that is missing, the server uses the client’s IANA time zone. It does not use UTC or `CURRENT_DATE`. Dashboard “today” is `GET /api/dashboard?date=YYYY-MM-DD`.
+- Tax export (`GET /api/reports/sales` and `/export`) uses one report for the totals strip and the CSV. Gross sales are cash sales. Trade cash is once per trade group. No-cash trade value is separate. The evening-date warning uses fix date `2026-10-16`.
 - Pagination on `GET /api/cards` (default limit 20)
 - No automated DB migrations — SQL files in `server/migrations/`, run in pgAdmin
 - `sold_date` returned as `YYYY-MM-DD` string from `mapCard()` for consistent client formatting

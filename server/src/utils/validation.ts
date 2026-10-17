@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { TAX_PRESETS } from "./taxRange.js";
 
 export const registerSchema = z.object({
   email: z.string().email("Valid email required"),
@@ -118,6 +119,28 @@ export const quickSaleSchema = z.object({
   event_id: z.string().uuid().optional().nullable(),
   quantity: z.coerce.number().int().positive().optional().default(1),
 });
+
+export const taxReportQuerySchema = z
+  .object({
+    preset: z.enum(TAX_PRESETS).optional().default("last_year"),
+    today: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be YYYY-MM-DD"),
+    from: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be YYYY-MM-DD")
+      .optional(),
+    to: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be YYYY-MM-DD")
+      .optional(),
+    event_id: z
+      .union([z.string().uuid(), z.literal("")])
+      .optional()
+      .transform((value) => (value ? value : undefined)),
+  })
+  .refine(
+    (value) => value.preset !== "custom" || Boolean(value.from && value.to && value.from <= value.to),
+    { message: "Custom range needs a start date on or before the end date" }
+  );
 
 export const dashboardQuerySchema = z
   .object({

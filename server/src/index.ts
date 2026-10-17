@@ -14,6 +14,7 @@ import eventsRoutes from "./routes/events.js";
 import salesRoutes from "./routes/sales.js";
 import tradesRoutes from "./routes/trades.js";
 import uploadRoutes from "./routes/upload.js";
+import reportRoutes from "./routes/reports.js";
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use("/api/events", eventsRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/trades", tradesRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/reports/sales", reportRoutes);
 
 if (config.isProduction) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));

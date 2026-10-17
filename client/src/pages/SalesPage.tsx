@@ -5,6 +5,7 @@ import { cardLabel, formatCurrency, formatDate } from "../lib/format";
 import { groupSoldCards, type SaleReceipt } from "../lib/groupSales";
 import type { Card, PaginationMeta, SalesEvent } from "../types";
 import { Pagination } from "../components/Pagination";
+import { TaxReportPanel } from "../components/TaxReportPanel";
 
 function lineRevenue(card: Card): number {
   return Number(card.sold_price ?? 0) + Number(card.cash_adjustment ?? 0);
@@ -118,6 +119,8 @@ export function SalesPage() {
           + Record sale
         </Link>
       </div>
+
+      <TaxReportPanel events={events} />
 
       <div className="mb-4">
         <label className="mb-1 block text-sm font-medium text-slate-700">Filter by event</label>

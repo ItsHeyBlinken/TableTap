@@ -2,19 +2,23 @@
 
 **Last updated:** 2026-10-16
 
-## In progress — tax reporting Phase 0
+## In progress — tax reporting Phase 1
 
-Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md). Phase 1 and Phase 2 are not started.
+Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md). Phase 0 is on `main` and checked on the live site (trade cash sign, local sale dates). Phase 2 is not started.
 
-- Profit now includes trade cash (same sign as revenue: positive = cash received). Dashboard sums that cash once per trade group.
-- Sale dates come from the vendor’s local calendar day. Server fallback is an IANA time zone, not UTC. Dashboard “today” uses `?date=`.
-- Price meaning is unchanged: `sold_price` is the sale amount; `purchase_price` is what the vendor paid per item.
-- Tests: `npm test` in `server/` (`src/utils/phase0.test.ts`).
-- The Phase 1 warning date is still unset. Fill it in when this phase is deployed.
+- Sales page **Tax export**: presets (default last year), show filter, totals, by-show breakdown, CSV download.
+- Report API: `GET /api/reports/sales` and `GET /api/reports/sales/export`. Same service feeds both. Scoped by the logged-in user.
+- Phase 0 fix date for the warning line: **2026-10-16**.
+- Column guide: `docs/tax-export.md` and the in-page Column guide.
+- Tests: `npm test` in `server/`.
 
 ## Recently shipped
 
 - **POS multi-item checkout (2026-09-25)** — stock tab cart, **Sell now** (single line), **Complete sale** (multi-line), `POST /api/sales/checkout`; Sales groups by receipt (`transaction_id`). Spec: [`docs/superpowers/specs/2026-09-25-pos-checkout-design.md`](../docs/superpowers/specs/2026-09-25-pos-checkout-design.md). **Requires migration `004`** in pgAdmin (local + Coolify) before checkout works in that environment.
+
+## Where Chris is testing (2026-10-16)
+
+Use the live site: https://tabletap.bytesbyblinken.com. The local Docker Postgres volume created that day is empty (no migrations). Leave it unused.
 
 ## Live testing (Coolify)
 
