@@ -18,7 +18,8 @@ import reportRoutes from "./routes/reports.js";
 
 const app = express();
 
-// Coolify (and similar) sit behind one reverse-proxy hop; needed for per-IP rate limits.
+// Coolify/Traefik: one reverse-proxy hop. Without this, req.ip is the proxy and
+// X-Forwarded-For is ignored — or worse, keys become unstable across hops.
 app.set("trust proxy", 1);
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
@@ -27,6 +28,8 @@ app.use(
   cors({
     origin: config.clientUrl,
     credentials: true,
+    // So browsers/devtools can read remaining/retry after failed login attempts.
+    exposedHeaders: ["RateLimit", "RateLimit-Policy", "Retry-After"],
   })
 );
 app.use(express.json());

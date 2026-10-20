@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-10-20 (rate-limit harden after QA)
+
+- QA: login/register rate limit showed `remaining=9` on every attempt (never 429). Limiters were already module-scoped; `trust proxy` was already `1`. Live curl from the app host *did* decrement and 429 — still hardened for unstable proxy keys.
+- Extracted [`server/src/middleware/authRateLimit.ts`](../server/src/middleware/authRateLimit.ts): module-level limiters; key = leftmost `X-Forwarded-For` via `ipKeyGenerator` (fallback `req.ip`).
+- CORS exposes `RateLimit` / `RateLimit-Policy` / `Retry-After`.
+- Tests: 11th login → 429; remaining drops 9→8; separate IPs don’t share a bucket. `npm test` 19 pass.
+- Non-blockers logged by QA (post-beta): report strip vs cash trades; stock list missing qty / shows stack cost; register has no business name.
+
 ## 2026-10-20 (beta Phase 1 — code complete, not committed)
 
 Session log (completed tasks):

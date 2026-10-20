@@ -1,31 +1,13 @@
 import { Router } from "express";
-import rateLimit from "express-rate-limit";
 import jwt from "jsonwebtoken";
 import { registerSchema, loginSchema } from "../utils/validation.js";
 import * as authService from "../services/authService.js";
 import { setAuthCookie, clearAuthCookie } from "../middleware/auth.js";
+import { loginLimiter, registerLimiter } from "../middleware/authRateLimit.js";
 import { config } from "../config.js";
 import type { JwtPayload } from "../types/index.js";
 
 const router = Router();
-
-const rateLimitMessage = { error: "Too many attempts. Try again in a few minutes." };
-
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  standardHeaders: "draft-7",
-  legacyHeaders: false,
-  message: rateLimitMessage,
-});
-
-const registerLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  max: 5,
-  standardHeaders: "draft-7",
-  legacyHeaders: false,
-  message: rateLimitMessage,
-});
 
 router.post("/register", registerLimiter, async (req, res, next) => {
   try {
