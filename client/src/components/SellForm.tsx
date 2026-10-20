@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { apiPatch } from "../lib/api";
 import { cardAskingPrice, cardLabel, formatCurrency, localDateString, previewProfit } from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
@@ -10,19 +11,25 @@ interface SellFormProps {
   onSuccess?: (card: Card, profit: number) => void;
 }
 
+function wholeStackPrefill(card: Card): string {
+  const asking = cardAskingPrice(card);
+  if (asking == null) return "";
+  if (card.quantity > 1) return String(asking * card.quantity);
+  return String(asking);
+}
+
 export function SellForm({ card, onSuccess }: SellFormProps) {
   const priceRef = useRef<HTMLInputElement>(null);
   const asking = cardAskingPrice(card);
-  const [soldPrice, setSoldPrice] = useState(asking != null ? String(asking) : "");
+  const [soldPrice, setSoldPrice] = useState(() => wholeStackPrefill(card));
   const [eventId, setEventId] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const next = cardAskingPrice(card);
-    setSoldPrice(next != null ? String(next) : "");
+    setSoldPrice(wholeStackPrefill(card));
     setError("");
-  }, [card.id, card.estimated_value]);
+  }, [card.id, card.estimated_value, card.quantity]);
 
   const costBasis = card.cost_basis ?? Number(card.purchase_price ?? 0) * card.quantity;
   const profitPreview = useMemo(() => {
@@ -37,7 +44,7 @@ export function SellForm({ card, onSuccess }: SellFormProps) {
   };
 
   const resetForNext = () => {
-    setSoldPrice(asking != null ? String(asking) : "");
+    setSoldPrice(wholeStackPrefill(card));
     setError("");
     priceRef.current?.focus();
   };
@@ -80,7 +87,11 @@ export function SellForm({ card, onSuccess }: SellFormProps) {
       )}
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">Sale price</label>
+        <label className="mb-1 block text-sm font-medium text-slate-700">
+          {card.quantity > 1
+            ? `Total sale price for all ${card.quantity} cards`
+            : "Sale price"}
+        </label>
         <input
           ref={priceRef}
           type="number"
@@ -94,6 +105,15 @@ export function SellForm({ card, onSuccess }: SellFormProps) {
           className="w-full rounded-xl border-2 border-slate-300 px-4 py-4 text-2xl font-bold focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
           placeholder="0.00"
         />
+        {card.quantity > 1 && (
+          <p className="mt-1 text-xs text-slate-500">
+            This sells the whole stack. For a partial quantity, use the{" "}
+            <Link to="/sell" className="font-medium text-brand-600 hover:underline">
+              Sell page cart
+            </Link>
+            .
+          </p>
+        )}
       </div>
 
       {profitPreview != null && (

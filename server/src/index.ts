@@ -18,6 +18,9 @@ import reportRoutes from "./routes/reports.js";
 
 const app = express();
 
+// Coolify (and similar) sit behind one reverse-proxy hop; needed for per-IP rate limits.
+app.set("trust proxy", 1);
+
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(morgan(config.nodeEnv === "development" ? "dev" : "combined"));
 app.use(

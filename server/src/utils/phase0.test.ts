@@ -44,6 +44,18 @@ describe("profit and trade cash", () => {
     });
     assert.equal(profit, 9);
   });
+
+  it("trade from a stack: profit uses cost for 1 card plus cash once", () => {
+    // Stack of 5 at $2 each → trade 1 at $10 value with $5 cash received → profit $13
+    const profit = computeProfit({
+      status: "sold",
+      sold_price: "10",
+      purchase_price: "2",
+      quantity: 1,
+      cash_adjustment: "5",
+    });
+    assert.equal(profit, 13);
+  });
 });
 
 describe("sale dates", () => {

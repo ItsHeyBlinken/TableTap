@@ -5,7 +5,7 @@ import { AuthLayout } from "../components/AuthLayout";
 import { ErrorAlert } from "../components/ErrorAlert";
 
 const inputClass =
-  "w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
+  "input-mobile w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
 
 export function RegisterPage() {
   const { register } = useAuth();
@@ -74,6 +74,17 @@ export function RegisterPage() {
             placeholder="At least 8 characters"
           />
         </div>
+        <p className="text-sm text-slate-600">
+          By creating an account you agree to the{" "}
+          <Link to="/terms" className="font-medium text-brand-600 hover:underline">
+            Terms
+          </Link>{" "}
+          and{" "}
+          <Link to="/privacy" className="font-medium text-brand-600 hover:underline">
+            Privacy Policy
+          </Link>
+          .
+        </p>
         <button
           type="submit"
           disabled={loading}

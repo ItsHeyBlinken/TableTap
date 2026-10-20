@@ -1,15 +1,20 @@
 # Active Context
 
-**Last updated:** 2026-10-16
+**Last updated:** 2026-10-20
 
 ## Current focus
 
-Profit and loss reporting is shipped. Plan: [`tax-reporting-plan.md`](../tax-reporting-plan.md).
+**Free beta readiness (Phase 1 code done, not yet committed/deployed).** Plan: [`docs/tabletap-beta-readiness-plan.md`](../docs/tabletap-beta-readiness-plan.md). Target go/no-go **Sun Nov 1, 2026**.
 
-**Sales tax is out of scope (2026-10-16).** Each vendor handles it differently. Some shows collect it at the end, and some expect the vendor to collect it. Do not add tax rates or a sales-tax formula until Chris asks.
+**Sales tax is out of scope (2026-10-16).** Each vendor handles it differently. Do not add tax rates until Chris asks.
+
+**Photos:** hidden for beta (no upload, paste URL, or image display). Re-enable after launch with S3.
+
+**Before deploy:** Coolify `JWT_SECRET` ≥ 32 chars (M1) — prod refuses to start otherwise. Backups (M2), legal review of Terms/Privacy drafts (M5).
 
 ## Recently shipped
 
+- **Beta Phase 1 blockers + phone fixes (2026-10-20, code in working tree)** — JWT prod guard; login/register rate limits + `trust proxy`; support mailto; NotFound + FAQ hash scroll; photos hidden; Terms/Privacy + Register consent; trade-from-stack split; admin password-reset runbook; Login/Register 16px inputs; sell-whole-stack label. No migration. Deferred: README, upload errors, CI, email reset.
 - **Profit and loss export (2026-10-16)** — committed and live at https://tabletap.bytesbyblinken.com. Sales → **Tax export**. Presets default to last year. Totals and the CSV match. Checked **This year** for `testuser1@test.com`: profit **$69.00** on 5 items. Dates display as `MM-DD-YYYY`. Column guide: `docs/tax-export.md`. No database migration.
 - **Sale dates and trade cash (2026-10-16)** — profit includes trade cash once per trade group (positive = cash received). Sale dates use the vendor’s local day. Evening-date warning starts **2026-10-16**.
 - **POS multi-item checkout (2026-09-25)** — stock tab cart, **Sell now** (single line), **Complete sale** (multi-line), `POST /api/sales/checkout`; Sales groups by receipt (`transaction_id`). Spec: [`docs/superpowers/specs/2026-09-25-pos-checkout-design.md`](../docs/superpowers/specs/2026-09-25-pos-checkout-design.md). **Requires migration `004`** in pgAdmin (local + Coolify) before checkout works in that environment.
@@ -31,7 +36,7 @@ Use the live site: https://tabletap.bytesbyblinken.com. The local Docker Postgre
 
 **Coolify commands (repo root):** Install `npm ci --prefix server && npm ci --prefix client && npm ci` · Build `npm run build` · Start `npm start`
 
-**Prod env (API process):** `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET`, `CLIENT_URL=https://tabletap.bytesbyblinken.com`, `PORT`. Optional build-time: `VITE_FEEDBACK_EMAIL` for pricing mailto.
+**Prod env (API process):** `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (required ≥ 32 chars; not the dev fallback), `CLIENT_URL=https://tabletap.bytesbyblinken.com` (must not contain `localhost`), `PORT`. Optional build-time: `VITE_FEEDBACK_EMAIL` for pricing mailto. Photo/S3 vars unused while photos are hidden.
 
 **Billing:** Not connected yet. `/pricing` is draft options for vendor feedback only.
 
@@ -66,7 +71,7 @@ Schema errors like `column c.cash_adjustment does not exist` → run `003`. Chec
 
 ## App routes
 
-**Public:** `/` (landing + FAQ), `/guide` (how-to + features), `/pricing` (draft pricing feedback), `/login`, `/register`
+**Public:** `/` (landing + FAQ), `/guide`, `/pricing`, `/terms`, `/privacy`, `/login`, `/register`; unknown paths → NotFound
 
 **Post-register:** `/welcome` (4-step quick start; then dashboard)
 
@@ -78,7 +83,7 @@ Schema errors like `column c.cash_adjustment does not exist` → run `003`. Chec
 - `/cards` — stock on hand
 - `/cards/import` — bulk CSV stock import
 - `/events` — sales events
-- `/settings` — email + logout
+- `/settings` — email, logout, support mailto, Terms/Privacy links
 
 Mobile: bottom nav + compact header; desktop: top navbar unchanged.
 

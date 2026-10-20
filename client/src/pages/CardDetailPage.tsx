@@ -38,17 +38,7 @@ export function CardDetailPage() {
         ← Back to stock
       </Link>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-2">
-        <div>
-          {card.image_url ? (
-            <img src={card.image_url} alt={card.player_name} className="w-full rounded-xl object-cover" />
-          ) : (
-            <div className="flex h-64 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
-              No image
-            </div>
-          )}
-        </div>
-
+      <div className="mt-6 max-w-xl">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">{card.player_name}</h1>
           <p className="mt-1 text-lg text-slate-600">

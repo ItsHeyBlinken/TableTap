@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
-import { APP_DISPLAY_NAME } from "../lib/brand";
+import { APP_DISPLAY_NAME, SUPPORT_EMAIL, supportMailto } from "../lib/brand";
 
 const features = [
   "Record a sale in under 10 seconds with instant profit",
@@ -62,6 +62,12 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
             <h2 className="text-2xl font-bold text-slate-900">{title}</h2>
             <p className="mt-2 text-sm text-slate-600">{subtitle}</p>
             {children}
+            <p className="mt-6 text-center text-sm text-slate-500">
+              Contact{" "}
+              <a href={supportMailto()} className="font-medium text-brand-600 hover:underline">
+                {SUPPORT_EMAIL}
+              </a>
+            </p>
           </div>
         </div>
       </div>

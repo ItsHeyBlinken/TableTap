@@ -1,6 +1,5 @@
 import { useState } from "react";
 import type { CardFormData } from "../types";
-import { apiUpload } from "../lib/api";
 import {
   CARD_BRANDS,
   CARD_CONDITIONS,
@@ -24,25 +23,9 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
   const [form, setForm] = useState<CardFormData>(initial);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
 
   const update = (field: keyof CardFormData, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    setError("");
-    try {
-      const { url } = await apiUpload(file);
-      update("image_url", url);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploading(false);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -215,21 +198,6 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
           className={inputClass}
           value={form.notes}
           onChange={(e) => update("notes", e.target.value)}
-        />
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm font-medium">Image</label>
-        <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} className="text-sm" />
-        {uploading && <p className="mt-1 text-xs text-slate-500">Uploading...</p>}
-        {form.image_url && (
-          <img src={form.image_url} alt="Card preview" className="mt-2 h-32 rounded-lg object-cover" />
-        )}
-        <input
-          className={`${inputClass} mt-2`}
-          placeholder="Or paste image URL"
-          value={form.image_url}
-          onChange={(e) => update("image_url", e.target.value)}
         />
       </div>
 

@@ -10,6 +10,8 @@ function requireEnv(key: string, fallback?: string): string {
   return value;
 }
 
+const WEAK_JWT_SECRETS = new Set(["dev-secret-change-me", "change-me-in-production"]);
+
 export const config = {
   port: Number(process.env.PORT ?? 3001),
   nodeEnv: process.env.NODE_ENV ?? "development",
@@ -31,3 +33,17 @@ export const config = {
   },
   isProduction: process.env.NODE_ENV === "production",
 };
+
+if (config.isProduction) {
+  if (!config.jwtSecret || WEAK_JWT_SECRETS.has(config.jwtSecret) || config.jwtSecret.length < 32) {
+    throw new Error(
+      "Production requires JWT_SECRET to be set to a strong value (at least 32 characters). " +
+        "Do not use the development fallback."
+    );
+  }
+  if (config.clientUrl.includes("localhost")) {
+    throw new Error(
+      "Production CLIENT_URL must not contain localhost. Set CLIENT_URL to your public site URL."
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import rateLimit from "express-rate-limit";
 import jwt from "jsonwebtoken";
 import { registerSchema, loginSchema } from "../utils/validation.js";
 import * as authService from "../services/authService.js";
@@ -8,7 +9,25 @@ import type { JwtPayload } from "../types/index.js";
 
 const router = Router();
 
-router.post("/register", async (req, res, next) => {
+const rateLimitMessage = { error: "Too many attempts. Try again in a few minutes." };
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: rateLimitMessage,
+});
+
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: rateLimitMessage,
+});
+
+router.post("/register", registerLimiter, async (req, res, next) => {
   try {
     const body = registerSchema.parse(req.body);
     const user = await authService.registerUser(body.email, body.password);
@@ -19,7 +38,7 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", loginLimiter, async (req, res, next) => {
   try {
     const body = loginSchema.parse(req.body);
     const user = await authService.loginUser(body.email, body.password);

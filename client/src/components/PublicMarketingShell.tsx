@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
-import { APP_DISPLAY_NAME } from "../lib/brand";
+import { APP_DISPLAY_NAME, SUPPORT_EMAIL, supportMailto } from "../lib/brand";
 import { MobileMenu, type MobileMenuItem } from "./MobileMenu";
 
 interface PublicMarketingShellProps {
@@ -70,6 +70,19 @@ export function PublicMarketingShell({ children }: PublicMarketingShellProps) {
         <Link to="/#faq" className="text-brand-600 hover:underline">
           FAQ
         </Link>
+        {" · "}
+        <Link to="/terms" className="text-brand-600 hover:underline">
+          Terms
+        </Link>
+        {" · "}
+        <Link to="/privacy" className="text-brand-600 hover:underline">
+          Privacy
+        </Link>
+        {" · "}
+        <a href={supportMailto()} className="text-brand-600 hover:underline">
+          Contact
+        </a>
+        <span className="sr-only"> ({SUPPORT_EMAIL})</span>
       </footer>
     </div>
   );

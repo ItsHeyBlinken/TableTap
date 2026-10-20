@@ -1,5 +1,23 @@
 # Progress Log
 
+## 2026-10-20 (beta Phase 1 — code complete, not committed)
+
+Session log (completed tasks):
+
+- **1.1** Prod config guard in `server/src/config.ts` — weak/missing `JWT_SECRET` or localhost `CLIENT_URL` throws in production (photos URL check skipped).
+- **1.2** `express-rate-limit` on login (10/15m) and register (5/h); `trust proxy` = 1.
+- **1.3** `SUPPORT_EMAIL` + mailto in Settings, public footer Contact, AuthLayout.
+- **1.4** `NotFoundPage`; FAQ `#faq` scroll on LandingPage.
+- **1.5** All photo UI hidden (CardForm, CardDetail, import copy). Server upload unused.
+- **1.6** `/terms`, `/privacy`, `content/legal.ts` drafts; Register consent; footer + Settings links.
+- **1.7** `tradeService` splits stacks (FOR UPDATE, qty−1 + sold qty 1); TradeTab “Trading 1 of N”; unit test for profit math.
+- **1.8** `server/scripts/hash-password.mjs`, Login forgot line, `docs/admin-password-reset.md`.
+- **2.2** Login/Register inputs `text-base` / `.input-mobile`.
+- **2.4** SellForm whole-stack label + asking×N prefill; link to Sell cart for partial qty.
+- Deferred per plan: 2.1, 2.3, Phase 3, email password reset / migration 005.
+- Verified: `server` `npm test` (16 pass) + `npm run build`; `client` `npm run build` PASS.
+- Chris still owns: M1 JWT in Coolify before deploy, M2 backups, M4 restore test, M5 legal review, M6 inbox.
+
 ## 2026-10-16 (committed and live)
 
 - Phase 0 and Phase 1 are committed and deployed at https://tabletap.bytesbyblinken.com.

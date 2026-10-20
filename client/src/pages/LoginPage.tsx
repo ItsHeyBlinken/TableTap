@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { AuthLayout } from "../components/AuthLayout";
 import { ErrorAlert } from "../components/ErrorAlert";
+import { SUPPORT_EMAIL, supportMailto } from "../lib/brand";
 
 const inputClass =
-  "w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
+  "input-mobile w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -79,6 +80,13 @@ export function LoginPage() {
         >
           {loading ? "Signing in..." : "Sign in"}
         </button>
+        <p className="text-center text-sm text-slate-600">
+          Forgot password? Email{" "}
+          <a href={supportMailto()} className="font-medium text-brand-600 hover:underline">
+            {SUPPORT_EMAIL}
+          </a>{" "}
+          from your account email and we&apos;ll reset it.
+        </p>
       </form>
     </AuthLayout>
   );

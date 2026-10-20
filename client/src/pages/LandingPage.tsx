@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { FaqSection } from "../components/FaqSection";
 import { PublicMarketingShell } from "../components/PublicMarketingShell";
 
@@ -36,6 +37,18 @@ const features = [
 ];
 
 export function LandingPage() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const id = location.hash.replace(/^#/, "");
+    if (!id) return;
+    // Wait a tick so FAQ content is in the DOM after route navigation.
+    const timer = window.setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [location.hash, location.pathname]);
+
   return (
     <PublicMarketingShell>
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pt-20">

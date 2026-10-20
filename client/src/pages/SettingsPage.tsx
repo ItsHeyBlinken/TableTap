@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { SUPPORT_EMAIL, supportMailto } from "../lib/brand";
 import { resetChecklistDismissed } from "../lib/onboardingStorage";
 
 export function SettingsPage() {
@@ -33,14 +34,27 @@ export function SettingsPage() {
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-6">
-          <h2 className="font-semibold text-slate-900">Help</h2>
-          <p className="mt-1 text-sm text-slate-600">Features, show-day workflow, and getting started.</p>
+          <h2 className="font-semibold text-slate-900">Help &amp; support</h2>
+          <p className="mt-1 text-sm text-slate-600">
+            Questions or a bug? Email{" "}
+            <a href={supportMailto(user?.email)} className="font-medium text-brand-600 hover:underline">
+              {SUPPORT_EMAIL}
+            </a>
+            .
+          </p>
+          <p className="mt-4 text-sm text-slate-600">Features, show-day workflow, and getting started.</p>
           <div className="mt-4 flex flex-col gap-2">
             <Link to="/guide" className="text-sm font-medium text-brand-600 hover:underline">
               How to use TableTap (full guide)
             </Link>
             <Link to="/welcome" className="text-sm font-medium text-brand-600 hover:underline">
               Quick start (4 steps)
+            </Link>
+            <Link to="/terms" className="text-sm font-medium text-brand-600 hover:underline">
+              Terms of Service
+            </Link>
+            <Link to="/privacy" className="text-sm font-medium text-brand-600 hover:underline">
+              Privacy Policy
             </Link>
             <button
               type="button"
