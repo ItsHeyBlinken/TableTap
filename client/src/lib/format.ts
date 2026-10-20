@@ -31,7 +31,9 @@ export function previewProfit(soldPrice: number, costBasis: number): number {
 }
 
 /** Asking / list price when set (estimated_value > 0). */
-export function cardAskingPrice(card: { estimated_value: string | number | null | undefined }): number | null {
+export function cardAskingPrice(card: {
+  estimated_value?: string | number | null | undefined;
+}): number | null {
   const n = Number(card.estimated_value ?? 0);
   return n > 0 ? n : null;
 }
@@ -48,6 +50,18 @@ export function cardRemainingCost(card: {
   cost_basis?: number | null;
 }): number {
   return card.cost_basis ?? cardUnitCost(card) * card.quantity;
+}
+
+/** Sell/stock picker subtitle: "On hand: 3 · $2.00/card · Ask $4.00". */
+export function cardOnHandCostLine(card: {
+  purchase_price: string | number | null | undefined;
+  quantity: number;
+  estimated_value?: string | number | null;
+}): string {
+  const parts = [`On hand: ${card.quantity}`, `${formatCurrency(cardUnitCost(card))}/card`];
+  const ask = cardAskingPrice(card);
+  if (ask != null) parts.push(`Ask ${formatCurrency(ask)}`);
+  return parts.join(" · ");
 }
 
 export const emptyCardForm = {

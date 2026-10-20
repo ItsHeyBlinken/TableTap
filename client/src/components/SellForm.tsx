@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiPatch } from "../lib/api";
-import { cardAskingPrice, cardLabel, formatCurrency, localDateString, previewProfit } from "../lib/format";
+import {
+  cardAskingPrice,
+  cardLabel,
+  cardOnHandCostLine,
+  formatCurrency,
+  localDateString,
+  previewProfit,
+} from "../lib/format";
 import { setLastEventId } from "../lib/posStorage";
 import type { Card } from "../types";
 import { EventSelect } from "./EventSelect";
@@ -20,7 +27,6 @@ function wholeStackPrefill(card: Card): string {
 
 export function SellForm({ card, onSuccess }: SellFormProps) {
   const priceRef = useRef<HTMLInputElement>(null);
-  const asking = cardAskingPrice(card);
   const [soldPrice, setSoldPrice] = useState(() => wholeStackPrefill(card));
   const [eventId, setEventId] = useState("");
   const [error, setError] = useState("");
@@ -74,12 +80,7 @@ export function SellForm({ card, onSuccess }: SellFormProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
         <p className="truncate font-semibold text-slate-900">{cardLabel(card)}</p>
-        <p className="text-sm text-slate-600">
-          Cost: {formatCurrency(costBasis)}
-          {asking != null && (
-            <span className="text-slate-500"> · Ask {formatCurrency(asking)}</span>
-          )}
-        </p>
+        <p className="text-sm text-slate-600">{cardOnHandCostLine(card)}</p>
       </div>
 
       {error && (

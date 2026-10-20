@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { cardAskingPrice, cardLabel, cardUnitCost, formatCurrency } from "../lib/format";
+import { cardAskingPrice, cardLabel, cardOnHandCostLine, cardUnitCost, formatCurrency } from "../lib/format";
 import type { CartLine } from "../lib/cartStorage";
 import type { Card } from "../types";
 
@@ -39,8 +39,6 @@ export function StockSellPanel({
     setUnitStr(nextAsk != null ? String(nextAsk) : "");
   }, [card.id, card.estimated_value, card.quantity]);
 
-  const costBasis = card.cost_basis ?? cardUnitCost(card) * card.quantity;
-
   const parsed = useMemo(() => {
     const quantity = Math.floor(Number(qtyStr));
     const unitPrice = Number(unitStr);
@@ -71,14 +69,7 @@ export function StockSellPanel({
     <div className="space-y-4">
       <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
         <p className="truncate font-semibold text-slate-900">{cardLabel(card)}</p>
-        <p className="text-sm text-slate-600">
-          On hand: {card.quantity}
-          {" · "}
-          Cost: {formatCurrency(costBasis)}
-          {asking != null && (
-            <span className="text-slate-500"> · Ask {formatCurrency(asking)}</span>
-          )}
-        </p>
+        <p className="text-sm text-slate-600">{cardOnHandCostLine(card)}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">

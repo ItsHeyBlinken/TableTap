@@ -9,7 +9,7 @@ import {
   mergeLine,
   saveCart,
 } from "../lib/cartStorage";
-import { cardAskingPrice, cardLabel, formatCurrency, localDateString } from "../lib/format";
+import { cardLabel, cardOnHandCostLine, formatCurrency, localDateString } from "../lib/format";
 import { getLastEventId } from "../lib/posStorage";
 import type { Card, CheckoutResult } from "../types";
 import { CartPanel } from "../components/CartPanel";
@@ -275,12 +275,7 @@ export function SellPage() {
                     }`}
                   >
                     <span className="block truncate">{cardLabel(c)}</span>
-                    <span className="text-xs text-slate-500">
-                      Cost {formatCurrency(c.cost_basis)}
-                      {cardAskingPrice(c) != null && (
-                        <> · Ask {formatCurrency(cardAskingPrice(c))}</>
-                      )}
-                    </span>
+                    <span className="text-xs text-slate-500">{cardOnHandCostLine(c)}</span>
                   </button>
                 </li>
               ))

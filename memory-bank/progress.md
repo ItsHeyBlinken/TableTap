@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-10-20 (sell picker cost label)
+
+- QA re-test green on strip + stock qty. Leftover: Record sale picker still showed stack total as "Cost."
+- Added `cardOnHandCostLine` → SellPage picker, StockSellPanel header, SellForm header: `On hand: N · $X/card · Ask $Y`.
+- Logout JWT still valid until expiry — deferred post-beta (blocklist or shorter TTL).
+
 ## 2026-10-20 (report strip + stock qty display)
 
 - Plan: [`docs/fix-plan-report-strip-stock-qty.md`](../docs/fix-plan-report-strip-stock-qty.md). No migration; CSV/profit unchanged.
