@@ -16,6 +16,7 @@ type TaxTotals = {
   grossSales: number;
   tradeCash: number;
   tradeValueNoCash: number;
+  tradeValueWithCash?: number;
   costOfGoods: number;
   profit: number;
   itemCount: number;
@@ -207,10 +208,17 @@ export function TaxReportPanel({ events }: TaxReportPanelProps) {
             <Total label="Gross sales" value={formatCurrency(totals.grossSales)} />
             <Total label="Trade cash" value={formatCurrency(totals.tradeCash)} />
             <Total label="Trade value (no cash)" value={formatCurrency(totals.tradeValueNoCash)} />
+            <Total
+              label="Trade value (with cash)"
+              value={formatCurrency(totals.tradeValueWithCash ?? 0)}
+            />
             <Total label="Cost of goods" value={formatCurrency(totals.costOfGoods)} />
             <Total label="Profit" value={formatCurrency(totals.profit)} className={profitClass(totals.profit)} />
             <Total label="Item count" value={String(totals.itemCount)} />
           </div>
+          <p className="mt-2 text-xs text-slate-500">
+            Gross + trade cash + trade values − cost = profit
+          </p>
 
           <div className="mt-5">
             <h3 className="mb-2 text-sm font-semibold text-slate-800">By show</h3>
@@ -224,7 +232,9 @@ export function TaxReportPanel({ events }: TaxReportPanelProps) {
                       <p className="font-semibold text-slate-900">{show.showName}</p>
                       <p className="mt-1 text-slate-600">
                         {show.itemCount} item{show.itemCount === 1 ? "" : "s"} · {formatCurrency(show.grossSales)}{" "}
-                        gross · {formatCurrency(show.tradeCash)} trade cash
+                        gross · {formatCurrency(show.tradeCash)} trade cash ·{" "}
+                        {formatCurrency((show.tradeValueWithCash ?? 0) + show.tradeValueNoCash)} trade
+                        value
                       </p>
                       <p className={`mt-1 font-bold ${profitClass(show.profit)}`}>
                         {formatCurrency(show.profit)} profit
@@ -241,6 +251,7 @@ export function TaxReportPanel({ events }: TaxReportPanelProps) {
                         <th className="px-3 py-2 font-medium">Gross</th>
                         <th className="px-3 py-2 font-medium">Trade cash</th>
                         <th className="px-3 py-2 font-medium">No-cash trades</th>
+                        <th className="px-3 py-2 font-medium">Cash trades</th>
                         <th className="px-3 py-2 font-medium">Profit</th>
                       </tr>
                     </thead>
@@ -252,6 +263,7 @@ export function TaxReportPanel({ events }: TaxReportPanelProps) {
                           <td className="px-3 py-2">{formatCurrency(show.grossSales)}</td>
                           <td className="px-3 py-2">{formatCurrency(show.tradeCash)}</td>
                           <td className="px-3 py-2">{formatCurrency(show.tradeValueNoCash)}</td>
+                          <td className="px-3 py-2">{formatCurrency(show.tradeValueWithCash ?? 0)}</td>
                           <td className={`px-3 py-2 font-semibold ${profitClass(show.profit)}`}>
                             {formatCurrency(show.profit)}
                           </td>
@@ -271,8 +283,10 @@ export function TaxReportPanel({ events }: TaxReportPanelProps) {
         <div className="mt-2 space-y-2">
           <p>
             Gross sales are cash sales only. Trade value (no cash) is the agreed value of trades where no cash
-            changed hands. Trades that include cash still appear in the CSV; their card value is{" "}
-            <span className="font-medium">line_revenue</span>, and the cash is <span className="font-medium">trade_cash</span>.
+            changed hands. Trade value (with cash) is the agreed card value of trades where cash also changed
+            hands; the cash itself is in Trade cash. Trades that include cash still appear in the CSV; their
+            card value is <span className="font-medium">line_revenue</span>, and the cash is{" "}
+            <span className="font-medium">trade_cash</span>.
           </p>
           <p>
             Positive trade cash is cash you received. Negative trade cash is cash you paid. Each trade group’s cash

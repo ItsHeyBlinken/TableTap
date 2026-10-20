@@ -104,8 +104,17 @@ describe("tax report totals", () => {
     assert.equal(report.totals.grossSales, 148);
     assert.equal(report.totals.tradeCash, -5);
     assert.equal(report.totals.tradeValueNoCash, 65);
+    assert.equal(report.totals.tradeValueWithCash, 105);
     assert.equal(report.totals.costOfGoods, 244);
     assert.equal(report.totals.profit, 69);
+    assert.equal(
+      report.totals.grossSales +
+        report.totals.tradeCash +
+        report.totals.tradeValueNoCash +
+        report.totals.tradeValueWithCash -
+        report.totals.costOfGoods,
+      report.totals.profit
+    );
     assert.equal(report.totals.itemCount, 5);
     assert.equal(report.warning, null);
     assert.equal(report.rows[0]?.sold_date, "10-16-2026");
@@ -157,6 +166,38 @@ describe("tax report totals", () => {
     assert.equal(report.totals.tradeCash, 20);
     assert.equal(report.rows.filter((row) => row.trade_cash === "20.00").length, 1);
     assert.equal(report.totals.tradeValueNoCash, 0);
+    assert.equal(report.totals.tradeValueWithCash, 30);
+  });
+
+  it("includes cash-trade card value in the strip so tiles add up to profit", () => {
+    const report = buildTaxReport(
+      [
+        line({ id: "cash", sold_price: "10.00", purchase_price: "3.00" }),
+        line({
+          id: "trade-cash",
+          sale_type: "trade",
+          sold_price: "10.00",
+          purchase_price: "1.00",
+          cash_adjustment: "5.00",
+          trade_group_id: "g1",
+        }),
+      ],
+      { from: "2026-10-16", to: "2026-10-16" }
+    );
+    assert.equal(report.totals.grossSales, 10);
+    assert.equal(report.totals.tradeCash, 5);
+    assert.equal(report.totals.tradeValueNoCash, 0);
+    assert.equal(report.totals.tradeValueWithCash, 10);
+    assert.equal(report.totals.costOfGoods, 4);
+    assert.equal(report.totals.profit, 21);
+    assert.equal(
+      report.totals.grossSales +
+        report.totals.tradeCash +
+        report.totals.tradeValueNoCash +
+        report.totals.tradeValueWithCash -
+        report.totals.costOfGoods,
+      report.totals.profit
+    );
   });
 
   it("uses sold_price as the sale amount when quantity is greater than one", () => {

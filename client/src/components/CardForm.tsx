@@ -119,7 +119,7 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
         />
 
         <div>
-          <label className="mb-1 block text-sm font-medium">Cost basis (what you paid) *</label>
+          <label className="mb-1 block text-sm font-medium">Cost per card (what you paid each) *</label>
           <input
             type="number"
             inputMode="decimal"
@@ -129,8 +129,11 @@ export function CardForm({ initial, onSubmit, submitLabel }: CardFormProps) {
             className={inputClass}
             value={form.purchase_price}
             onChange={(e) => update("purchase_price", e.target.value)}
-            placeholder="Used to calculate profit on sale"
+            placeholder="Cost of one card"
           />
+          <p className="mt-1 text-xs text-slate-500">
+            For a stack, enter the cost of one card, not the whole stack.
+          </p>
         </div>
 
         <div>

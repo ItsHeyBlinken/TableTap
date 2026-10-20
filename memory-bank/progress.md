@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-10-20 (report strip + stock qty display)
+
+- Plan: [`docs/fix-plan-report-strip-stock-qty.md`](../docs/fix-plan-report-strip-stock-qty.md). No migration; CSV/profit unchanged.
+- **FIX 1:** `taxReport.summarize` adds `tradeValueWithCash`; TaxReportPanel tile + by-show + guide + helper identity line. Tests include QA-shaped strip identity (21 server tests pass).
+- **FIX 2:** `cardUnitCost` / `cardRemainingCost`; stock list “N left” + per-card/remaining cost; card detail active/sold labels; CardForm “Cost per card”; import help notes per-card `purchase_price`.
+- Client + server builds PASS.
+
 ## 2026-10-20 (rate-limit harden after QA)
 
 - QA: login/register rate limit showed `remaining=9` on every attempt (never 429). Limiters were already module-scoped; `trust proxy` was already `1`. Live curl from the app host *did* decrement and 429 — still hardened for unstable proxy keys.

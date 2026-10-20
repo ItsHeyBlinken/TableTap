@@ -12,7 +12,7 @@
 
 **Before deploy:** Coolify `JWT_SECRET` ≥ 32 chars (M1) — prod refuses to start otherwise. Backups (M2), legal review of Terms/Privacy drafts (M5). Re-deploy rate-limit harden so QA can re-test login 429.
 
-**QA (2026-10-20):** Phase 1 mostly green. Blocker was rate-limit counter not decrementing for QA (fixed/hardened). Non-blockers: P&L strip with trade cash; stock list qty/cost clarity; no business name on register.
+**QA (2026-10-20):** Phase 1 mostly green. Rate-limit hardened. Non-blockers from [`docs/fix-plan-report-strip-stock-qty.md`](../docs/fix-plan-report-strip-stock-qty.md) implemented: report strip `tradeValueWithCash` + stock qty/per-card cost UI. Still open: business name on register (out of that plan).
 
 ## Recently shipped
 

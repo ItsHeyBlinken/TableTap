@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiGet } from "../lib/api";
-import { formatCurrency, cardAskingPrice } from "../lib/format";
+import { formatCurrency, cardAskingPrice, cardRemainingCost, cardUnitCost } from "../lib/format";
 import type { Card, PaginationMeta } from "../types";
 import { SearchFilters } from "../components/SearchFilters";
 import { Pagination } from "../components/Pagination";
@@ -95,10 +95,30 @@ export function CardsListPage() {
               <p className="text-sm text-slate-600">
                 {card.year} {card.brand}
                 {card.sport ? ` · ${card.sport}` : ""}
+                {card.status === "active" && (
+                  <span className="ml-2 inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+                    {card.quantity} left
+                  </span>
+                )}
               </p>
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-sm text-slate-600">
-                  Cost <span className="font-semibold text-slate-900">{formatCurrency(card.cost_basis)}</span>
+                  {card.quantity > 1 ? (
+                    <>
+                      Cost{" "}
+                      <span className="font-semibold text-slate-900">
+                        {formatCurrency(cardUnitCost(card))}/card · {formatCurrency(cardRemainingCost(card))}{" "}
+                        total
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      Cost{" "}
+                      <span className="font-semibold text-slate-900">
+                        {formatCurrency(cardUnitCost(card))}
+                      </span>
+                    </>
+                  )}
                   {cardAskingPrice(card) != null && (
                     <span className="text-slate-500">
                       {" "}
@@ -123,7 +143,9 @@ export function CardsListPage() {
                 <th className="px-4 py-3 font-medium">Player</th>
                 <th className="px-4 py-3 font-medium">Year / Set</th>
                 <th className="px-4 py-3 font-medium">Sport</th>
-                <th className="px-4 py-3 font-medium">Cost basis</th>
+                <th className="px-4 py-3 font-medium">Qty</th>
+                <th className="px-4 py-3 font-medium">Cost / card</th>
+                <th className="px-4 py-3 font-medium">Remaining cost</th>
                 <th className="px-4 py-3 font-medium">Ask</th>
                 <th className="px-4 py-3 font-medium"></th>
               </tr>
@@ -140,7 +162,9 @@ export function CardsListPage() {
                     {card.year} {card.brand}
                   </td>
                   <td className="px-4 py-3">{card.sport ?? "—"}</td>
-                  <td className="px-4 py-3">{formatCurrency(card.cost_basis)}</td>
+                  <td className="px-4 py-3">{card.quantity}</td>
+                  <td className="px-4 py-3">{formatCurrency(cardUnitCost(card))}</td>
+                  <td className="px-4 py-3">{formatCurrency(cardRemainingCost(card))}</td>
                   <td className="px-4 py-3 text-slate-600">
                     {cardAskingPrice(card) != null ? formatCurrency(cardAskingPrice(card)) : "—"}
                   </td>

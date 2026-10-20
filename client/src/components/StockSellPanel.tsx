@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { cardAskingPrice, cardLabel, formatCurrency } from "../lib/format";
+import { cardAskingPrice, cardLabel, cardUnitCost, formatCurrency } from "../lib/format";
 import type { CartLine } from "../lib/cartStorage";
 import type { Card } from "../types";
 
@@ -11,10 +11,6 @@ interface StockSellPanelProps {
   onSellNow: (line: CartLine) => void;
 }
 
-function unitPurchasePrice(card: Card): number {
-  return Number(card.purchase_price ?? 0);
-}
-
 function buildLine(card: Card, quantity: number, unitPrice: number): CartLine {
   return {
     cardId: card.id,
@@ -22,7 +18,7 @@ function buildLine(card: Card, quantity: number, unitPrice: number): CartLine {
     quantity,
     unitPrice,
     maxQuantity: card.quantity,
-    purchasePrice: unitPurchasePrice(card),
+    purchasePrice: cardUnitCost(card),
   };
 }
 
@@ -43,7 +39,7 @@ export function StockSellPanel({
     setUnitStr(nextAsk != null ? String(nextAsk) : "");
   }, [card.id, card.estimated_value, card.quantity]);
 
-  const costBasis = card.cost_basis ?? unitPurchasePrice(card) * card.quantity;
+  const costBasis = card.cost_basis ?? cardUnitCost(card) * card.quantity;
 
   const parsed = useMemo(() => {
     const quantity = Math.floor(Number(qtyStr));

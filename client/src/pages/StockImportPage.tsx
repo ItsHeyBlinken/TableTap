@@ -36,8 +36,9 @@ export function StockImportPage() {
       <h1 className="mt-4 text-2xl font-bold text-slate-900">Import stock from CSV</h1>
       <p className="mt-2 text-sm text-slate-600">
         Bulk-add active inventory. Required: <strong>player_name</strong>, <strong>year</strong>,{" "}
-        <strong>brand</strong>. Optional <strong>purchase_price</strong> (cost) and{" "}
-        <strong>estimated_value</strong> (asking price). Card photos are not offered in this beta.
+        <strong>brand</strong>. Optional <strong>purchase_price</strong> (cost{" "}
+        <em>per card</em>, not the whole stack) and <strong>estimated_value</strong> (asking price).
+        Card photos are not offered in this beta.
       </p>
 
       <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">

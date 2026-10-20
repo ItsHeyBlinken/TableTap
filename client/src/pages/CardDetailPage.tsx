@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiDelete, apiGet } from "../lib/api";
-import { formatCurrency, formatDate, cardAskingPrice } from "../lib/format";
+import {
+  formatCurrency,
+  formatDate,
+  cardAskingPrice,
+  cardRemainingCost,
+  cardUnitCost,
+} from "../lib/format";
 import type { Card } from "../types";
 import { SellForm } from "../components/SellForm";
 
@@ -47,15 +53,46 @@ export function CardDetailPage() {
           </p>
 
           <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <dt className="text-slate-500">Cost basis</dt>
-              <dd className="font-medium">{formatCurrency(card.cost_basis)}</dd>
-            </div>
-            {card.status === "active" && cardAskingPrice(card) != null && (
-              <div>
-                <dt className="text-slate-500">Asking price</dt>
-                <dd className="font-medium">{formatCurrency(cardAskingPrice(card))}</dd>
-              </div>
+            {card.status === "active" ? (
+              <>
+                <div>
+                  <dt className="text-slate-500">Quantity left</dt>
+                  <dd className="font-medium">{card.quantity}</dd>
+                </div>
+                <div>
+                  <dt className="text-slate-500">Cost per card</dt>
+                  <dd className="font-medium">{formatCurrency(cardUnitCost(card))}</dd>
+                </div>
+                <div>
+                  <dt className="text-slate-500">Remaining cost</dt>
+                  <dd className="font-medium">{formatCurrency(cardRemainingCost(card))}</dd>
+                </div>
+                {cardAskingPrice(card) != null && (
+                  <div>
+                    <dt className="text-slate-500">Asking price</dt>
+                    <dd className="font-medium">{formatCurrency(cardAskingPrice(card))}</dd>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div>
+                  <dt className="text-slate-500">Quantity sold</dt>
+                  <dd className="font-medium">{card.quantity}</dd>
+                </div>
+                <div>
+                  <dt className="text-slate-500">Cost basis</dt>
+                  <dd className="font-medium">
+                    {formatCurrency(card.cost_basis)}
+                    {card.quantity > 1 && (
+                      <span className="font-normal text-slate-500">
+                        {" "}
+                        ({card.quantity} × {formatCurrency(cardUnitCost(card))})
+                      </span>
+                    )}
+                  </dd>
+                </div>
+              </>
             )}
             <div>
               <dt className="text-slate-500">Status</dt>

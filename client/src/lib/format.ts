@@ -36,6 +36,20 @@ export function cardAskingPrice(card: { estimated_value: string | number | null 
   return n > 0 ? n : null;
 }
 
+/** Per-card cost (`purchase_price`). */
+export function cardUnitCost(card: { purchase_price: string | number | null | undefined }): number {
+  return Number(card.purchase_price ?? 0);
+}
+
+/** Remaining stack cost: cost_basis or unit × quantity. */
+export function cardRemainingCost(card: {
+  purchase_price: string | number | null | undefined;
+  quantity: number;
+  cost_basis?: number | null;
+}): number {
+  return card.cost_basis ?? cardUnitCost(card) * card.quantity;
+}
+
 export const emptyCardForm = {
   player_name: "",
   year: new Date().getFullYear().toString(),

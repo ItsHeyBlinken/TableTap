@@ -37,6 +37,7 @@ export type TaxTotals = {
   grossSales: number;
   tradeCash: number;
   tradeValueNoCash: number;
+  tradeValueWithCash: number;
   costOfGoods: number;
   profit: number;
   itemCount: number;
@@ -196,12 +197,14 @@ function summarize(lines: BuiltLine[]): TaxTotals {
   let grossSales = 0;
   let tradeCash = 0;
   let tradeValueNoCash = 0;
+  let tradeValueWithCash = 0;
   let costOfGoods = 0;
   let profit = 0;
   for (const line of lines) {
     if (!line.isTrade) grossSales += line.lineRevenueCents;
     tradeCash += line.tradeCashCents;
     if (line.isTrade && line.groupCashCents === 0) tradeValueNoCash += line.lineRevenueCents;
+    if (line.isTrade && line.groupCashCents !== 0) tradeValueWithCash += line.lineRevenueCents;
     costOfGoods += line.costCents;
     profit += line.profitCents;
   }
@@ -209,6 +212,7 @@ function summarize(lines: BuiltLine[]): TaxTotals {
     grossSales: fromCents(grossSales),
     tradeCash: fromCents(tradeCash),
     tradeValueNoCash: fromCents(tradeValueNoCash),
+    tradeValueWithCash: fromCents(tradeValueWithCash),
     costOfGoods: fromCents(costOfGoods),
     profit: fromCents(profit),
     itemCount: lines.length,
