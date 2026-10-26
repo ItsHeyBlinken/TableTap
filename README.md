@@ -1,4 +1,6 @@
-# ShowPOS
+# TableTap
+
+> **Status: in testing.** TableTap is not yet released.
 
 Sports card **vendor POS + profit tracker** for show vendors, flippers, and table sellers.
 
@@ -24,7 +26,8 @@ Sports card **vendor POS + profit tracker** for show vendors, flippers, and tabl
 3. Paste and run [`server/migrations/001_init.sql`](server/migrations/001_init.sql).
 4. Paste and run [`server/migrations/002_sales_events.sql`](server/migrations/002_sales_events.sql).
 5. Paste and run [`server/migrations/003_trades.sql`](server/migrations/003_trades.sql).
-6. For future schema changes, add new SQL files and run them the same way.
+6. Paste and run [`server/migrations/004_sales_transactions.sql`](server/migrations/004_sales_transactions.sql).
+7. For future schema changes, add new SQL files and run them the same way.
 
 ## Resuming after a break
 
@@ -113,7 +116,7 @@ cd client && npm install && npm run dev
 | `STORAGE_DRIVER` | `s3` recommended (local uploads don’t persist across redeploys) |
 | `VITE_FEEDBACK_EMAIL` | (build-time) Enables “Email pricing feedback” on `/pricing` |
 
-Run migrations `001` → `003` on production Postgres before first use.
+Run migrations `001` → `004` on production Postgres before first use.
 
 Local production smoke test:
 
@@ -129,10 +132,6 @@ Then open http://localhost:3001
 - Use a strong `JWT_SECRET`
 - Configure real `DATABASE_URL` and S3 credentials
 - Cookies use `Secure` in production
-
-## Git
-
-You manage commits locally. The agent does not commit on your behalf unless you ask.
 
 ## API overview
 
